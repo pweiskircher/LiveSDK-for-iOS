@@ -25,7 +25,7 @@
 
 
 // An enum type representing the overwrite options for upload methods.
-typedef enum 
+typedef NS_ENUM(unsigned int, LiveUploadOverwriteOption) 
 {
     // Overwrite the existing file.
     LiveUploadOverwrite = 0,
@@ -36,4 +36,4 @@ typedef enum
     // Give the uploaded file a new name.
     LiveUploadRename = 2,
     
-} LiveUploadOverwriteOption;
+};

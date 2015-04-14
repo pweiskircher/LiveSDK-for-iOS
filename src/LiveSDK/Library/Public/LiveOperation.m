@@ -30,12 +30,12 @@
 
 @synthesize liveOpCore;
 
-- (id) initWithOpCore:(LiveOperationCore *)opCore
+- (instancetype) initWithOpCore:(LiveOperationCore *)opCore
 {
     self = [super init];
     if (self) 
     {
-        liveOpCore = [opCore retain];
+        liveOpCore = opCore;
         liveOpCore.publicOperation = self;
     }
     
@@ -45,9 +45,7 @@
 - (void)dealloc 
 {
     liveOpCore.publicOperation = nil;
-    [liveOpCore release];
     
-    [super dealloc];
 }
 
 - (NSString *)path

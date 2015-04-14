@@ -31,26 +31,21 @@
 
 @synthesize connectionQueue = _connectionQueue;
 
-+ (id) factory
++ (instancetype) factory
 {
-    return [[[MockFactory alloc] init] autorelease];
+    return [[MockFactory alloc] init];
 }
 
-- (id) init
+- (instancetype) init
 {
     self = [super init];
     if (self)
     {
-        _connectionQueue = [[NSMutableArray array] retain];
+        _connectionQueue = [NSMutableArray array];
     }
     return self;
 }
 
-- (void) dealloc
-{
-    [_connectionQueue release];
-    [super dealloc];
-}
 
 - (id) createConnectionWithRequest:(NSURLRequest *)request 
                           delegate:(id)delegate
@@ -66,7 +61,7 @@
 - (MockUrlConnection *)fetchRequestConnection
 {
     if (self.connectionQueue.count > 0) {
-        MockUrlConnection *connection = [[[self.connectionQueue objectAtIndex:0] retain] autorelease];
+        MockUrlConnection *connection = (self.connectionQueue)[0];
         [self.connectionQueue removeObjectAtIndex:0];
         return connection;
     }

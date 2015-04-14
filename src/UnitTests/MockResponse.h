@@ -26,7 +26,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MockResponse : NSObject
+@interface MockResponse : NSURLResponse
 
 @property (nonatomic, assign) NSInteger statusCode;
 

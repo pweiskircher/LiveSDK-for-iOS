@@ -31,7 +31,7 @@
 @synthesize bytesTransferred = _bytesTransferred,
             totalBytes = _totalBytes;
 
-- (id) initWithBytesTransferred:(NSUInteger)bytesTransferred
+- (instancetype) initWithBytesTransferred:(NSUInteger)bytesTransferred
                      totalBytes:(NSUInteger)totalBytes
 {
     self = [super init];

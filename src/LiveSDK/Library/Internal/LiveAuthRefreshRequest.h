@@ -40,15 +40,15 @@
     LiveConnectClientCore *_client;
 }
 
-@property (nonatomic, retain) id tokenConnection;
-@property (nonatomic, retain) NSMutableData *tokenResponseData;
+@property (nonatomic, strong) id tokenConnection;
+@property (nonatomic, strong) NSMutableData *tokenResponseData;
 
-- (id) initWithClientId:(NSString *)clientId
+- (instancetype) initWithClientId:(NSString *)clientId
                   scope:(NSArray *)scopes
            refreshToken:(NSString *)refreshToken
                delegate:(id<LiveAuthDelegate>)delegate
               userState:(id)userState
-             clientStub:(LiveConnectClientCore *)client;
+             clientStub:(LiveConnectClientCore *)client NS_DESIGNATED_INITIALIZER;
 
 - (void) execute;
 

@@ -31,22 +31,22 @@
 @interface LiveOperation : NSObject 
 
 // The path of the request.
-@property (nonatomic, readonly) NSString *path;
+@property (weak, nonatomic, readonly) NSString *path;
 
 // The method of the request.
-@property (nonatomic, readonly) NSString *method;
+@property (weak, nonatomic, readonly) NSString *method;
 
 // The text receieved from the Live Service REST API response.
-@property (nonatomic, readonly) NSString *rawResult;
+@property (weak, nonatomic, readonly) NSString *rawResult;
 
 // The parsed result received from the Live Service REST API response
-@property (nonatomic, readonly) NSDictionary *result;
+@property (weak, nonatomic, readonly) NSDictionary *result;
 
 // The userState object passed in when the original method was invoked on the LiveConnectClient instance.
-@property (nonatomic, readonly) id userState; 
+@property (weak, nonatomic, readonly) id userState; 
 
 // The delegate instance to handle the operation callbacks.
-@property (nonatomic, assign) id delegate;
+@property (nonatomic, weak) id delegate;
 
 // Cancel the current operation. 
 - (void) cancel;

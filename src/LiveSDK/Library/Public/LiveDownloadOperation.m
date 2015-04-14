@@ -31,7 +31,7 @@
 
 @synthesize data;
 
-- (id) initWithOpCore:(LiveDownloadOperationCore *)opCore
+- (instancetype) initWithOpCore:(LiveDownloadOperationCore *)opCore
 {
     return [super initWithOpCore:opCore];
 }
@@ -41,11 +41,5 @@
     return self.liveOpCore.responseData;
 }
 
-- (void)dealloc 
-{
-    [data release];
-    
-    [super dealloc];
-}
 
 @end

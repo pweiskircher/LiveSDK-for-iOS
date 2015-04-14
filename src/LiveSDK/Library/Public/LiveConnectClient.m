@@ -43,7 +43,7 @@
 
 @implementation LiveConnectClient
 
-- (id) initWithClientId:(NSString *)clientId
+- (instancetype) initWithClientId:(NSString *)clientId
                delegate:(id<LiveAuthDelegate>)delegate
 {
     return [self initWithClientId:clientId 
@@ -51,7 +51,7 @@
                         userState:nil];
 }
 
-- (id) initWithClientId:(NSString *)clientId
+- (instancetype) initWithClientId:(NSString *)clientId
                delegate:(id<LiveAuthDelegate>)delegate
               userState:(id) userState
 {    
@@ -61,7 +61,7 @@
                         userState:userState];
 }
 
-- (id) initWithClientId:(NSString *)clientId
+- (instancetype) initWithClientId:(NSString *)clientId
                  scopes:(NSArray *)scopes
                delegate:(id<LiveAuthDelegate>)delegate
 {
@@ -71,7 +71,7 @@
                         userState:nil];
 }
 
-- (id) initWithClientId:(NSString *)clientId
+- (instancetype) initWithClientId:(NSString *)clientId
                  scopes:(NSArray *)scopes
                delegate:(id<LiveAuthDelegate>)delegate
               userState:(id)userState
@@ -99,12 +99,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_liveClientCore release];
-    
-    [super dealloc];
-}
 
 #pragma mark Parameter validation
 

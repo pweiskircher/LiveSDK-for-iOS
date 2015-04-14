@@ -30,28 +30,23 @@
 
 @synthesize events;
 
-- (id) init
+- (instancetype) init
 {
     self = [super init];
     if (self) 
     {
-        events = [[NSMutableArray array] retain];
+        events = [NSMutableArray array];
     }
     
     return self;
 }
 
-- (void) dealloc
-{
-    [events release];
-    [super dealloc];
-}
 
 - (NSDictionary *)fetchEvent
 {
     if (self.events.count > 0) 
     {
-        NSDictionary *event = [[[self.events objectAtIndex:0] retain] autorelease];
+        NSDictionary *event = (self.events)[0];
         [self.events removeObjectAtIndex:0];
         return event;
     }

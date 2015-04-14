@@ -24,13 +24,13 @@
 //
 
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface MockUrlConnection : NSObject
+@interface MockUrlConnection : NSURLConnection
 
-+ (id) connection;
++ (instancetype) connection;
 
-@property (nonatomic, retain) NSURLRequest *request;
-@property (nonatomic, retain) id delegate;
+@property (nonatomic, strong) NSURLRequest *request;
+@property (nonatomic, strong) id delegate;
 - (void)cancel;
 @end

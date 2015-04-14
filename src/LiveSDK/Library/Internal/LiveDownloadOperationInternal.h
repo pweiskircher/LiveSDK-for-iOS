@@ -30,6 +30,6 @@
 
 @interface LiveDownloadOperation() 
 
-- (id) initWithOpCore:(LiveDownloadOperationCore *)opCore;
+- (instancetype) initWithOpCore:(LiveDownloadOperationCore *)opCore;
 
 @end

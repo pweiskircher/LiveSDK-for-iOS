@@ -33,7 +33,7 @@
 
 @synthesize tokenConnection, tokenResponseData;
 
-- (id)initWithClientId:(NSString *)clientId
+- (instancetype)initWithClientId:(NSString *)clientId
                  scope:(NSArray *)scopes
           refreshToken:(NSString *)refreshToken
               delegate:(id<LiveAuthDelegate>)delegate
@@ -46,11 +46,11 @@
     self = [super init];
     if (self) 
     {
-        _clientId = [clientId retain];
-        _scopes = [scopes retain];
-        _refreshToken = [refreshToken retain];
+        _clientId = clientId;
+        _scopes = scopes;
+        _refreshToken = refreshToken;
         _delegate = delegate;
-        _userState = [userState retain];
+        _userState = userState;
         _client = client;
     }
     
@@ -61,14 +61,7 @@
 {
     [tokenConnection cancel];
     
-    [_clientId release];
-    [_scopes release];
-    [_refreshToken release];
-    [_userState release];
-    [tokenConnection release];
-    [tokenResponseData release];
     
-    [super dealloc];
 }
 
 - (void) execute
@@ -122,7 +115,7 @@ didReceiveResponse:(NSURLResponse *)response
     }
     else
     {
-        self.tokenResponseData = [[[NSMutableData alloc] init] autorelease];
+        self.tokenResponseData = [[NSMutableData alloc] init];
     }
 }
 
@@ -148,7 +141,7 @@ didReceiveResponse:(NSURLResponse *)response
     else
     {
         NSError *error = (NSError *)response;
-        NSString *errorCode = (NSString *)[error.userInfo objectForKey:LIVE_ERROR_KEY_ERROR];
+        NSString *errorCode = (NSString *)(error.userInfo)[LIVE_ERROR_KEY_ERROR];
         if (_client.status == LiveAuthUnknown && 
             [errorCode isEqual:LIVE_ERROR_CODE_S_ACCESS_DENIED])
         {

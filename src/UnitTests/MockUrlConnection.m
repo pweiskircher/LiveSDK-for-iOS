@@ -31,9 +31,9 @@
 @synthesize request = _request, 
            delegate = _delegate;
 
-+ (id) connection
++ (instancetype) connection
 {
-    return [[[MockUrlConnection alloc] init] autorelease];
+    return [[MockUrlConnection alloc] init];
 }
 
 - (void)cancel

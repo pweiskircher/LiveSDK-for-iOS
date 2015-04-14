@@ -37,14 +37,14 @@
 
 @synthesize refreshToken = _refreshToken;
 
-- (id) initWithClientId:(NSString *)clientId
+- (instancetype) initWithClientId:(NSString *)clientId
 {
     self = [super init];
     if (self) 
     {
         // Find the file path
-        NSString *libDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        _filePath = [[libDirectory stringByAppendingPathComponent:@"LiveService_auth.plist"] retain];
+        NSString *libDirectory = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
+        _filePath = [libDirectory stringByAppendingPathComponent:@"LiveService_auth.plist"];
         _clientId = clientId;
         
         // If file exist, load the file
@@ -55,7 +55,7 @@
             NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:_filePath];
             if ([clientId isEqualToString:[dictionary valueForKey: LIVE_AUTH_CLIENTID]]) 
             {
-                _refreshToken = [[dictionary valueForKey:LIVE_AUTH_REFRESH_TOKEN] retain];
+                _refreshToken = [dictionary valueForKey:LIVE_AUTH_REFRESH_TOKEN];
             }
             else
             {
@@ -69,14 +69,6 @@
     return self; 
 }
 
-- (void) dealloc
-{
-    [_filePath release];
-    [_clientId release];
-    [_refreshToken release];
-    
-    [super dealloc];
-}
 
 - (void) save
 {
@@ -85,13 +77,11 @@
     [data setValue:_refreshToken forKey:LIVE_AUTH_REFRESH_TOKEN];
     
     [data writeToFile:_filePath atomically:YES];
-    [data release];
 }
 
 - (void) setRefreshToken:(NSString *)refreshToken
 {
-    [_refreshToken release];    
-    _refreshToken = [refreshToken retain];
+    _refreshToken = refreshToken;
     
     [self save];
 }

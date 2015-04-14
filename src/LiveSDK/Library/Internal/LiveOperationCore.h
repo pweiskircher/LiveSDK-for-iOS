@@ -36,37 +36,37 @@
 
 @property (nonatomic, readonly) NSString *path;
 @property (nonatomic, readonly) NSString *method;
-@property (nonatomic, retain) NSData *requestBody;
+@property (nonatomic, strong) NSData *requestBody;
 @property (nonatomic, readonly) id userState; 
-@property (nonatomic, assign) id delegate;
+@property (nonatomic, weak) id delegate;
 @property (nonatomic, readonly) LiveConnectClientCore *liveClient;
-@property (nonatomic, retain) NSInputStream *inputStream;
-@property (nonatomic, readonly) NSURL *requestUrl;
-@property (nonatomic, retain) StreamReader *streamReader;
-@property (nonatomic, retain) NSMutableURLRequest *request; 
+@property (nonatomic, strong) NSInputStream *inputStream;
+@property (weak, nonatomic, readonly) NSURL *requestUrl;
+@property (nonatomic, strong) StreamReader *streamReader;
+@property (nonatomic, strong) NSMutableURLRequest *request; 
 
 @property (nonatomic) BOOL completed;
-@property (nonatomic, retain) NSString *rawResult;
-@property (nonatomic, retain) NSDictionary *result;
-@property (nonatomic, retain) id connection;
-@property (nonatomic, retain) NSMutableData *responseData;
-@property (nonatomic, retain) id publicOperation;
-@property (nonatomic, retain) NSHTTPURLResponse *httpResponse;
-@property (nonatomic, retain) NSError *httpError;
+@property (nonatomic, strong) NSString *rawResult;
+@property (nonatomic, strong) NSDictionary *result;
+@property (nonatomic, strong) id connection;
+@property (nonatomic, strong) NSMutableData *responseData;
+@property (nonatomic, strong) id publicOperation;
+@property (nonatomic, strong) NSHTTPURLResponse *httpResponse;
+@property (nonatomic, strong) NSError *httpError;
 
-- (id) initWithMethod:(NSString *)method
+- (instancetype) initWithMethod:(NSString *)method
                  path:(NSString *)path
           requestBody:(NSData *)requestBody
              delegate:(id)delegate
             userState:(id)userState
-           liveClient:(LiveConnectClientCore *)liveClient;
+           liveClient:(LiveConnectClientCore *)liveClient NS_DESIGNATED_INITIALIZER;
 
-- (id) initWithMethod:(NSString *)method
+- (instancetype) initWithMethod:(NSString *)method
                  path:(NSString *)path
           inputStream:(NSInputStream *)inputStream
              delegate:(id)delegate
             userState:(id)userState
-           liveClient:(LiveConnectClientCore *)liveClient;
+           liveClient:(LiveConnectClientCore *)liveClient NS_DESIGNATED_INITIALIZER;
 
 - (void) execute;
 

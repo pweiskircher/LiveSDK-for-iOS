@@ -30,10 +30,10 @@
 
 @interface MockFactory : NSObject<LiveConnectionCreatorDelegate>
 
-+ (id) factory;
++ (instancetype) factory;
 
-@property (nonatomic, retain) NSMutableArray *connectionQueue;
+@property (nonatomic, strong) NSMutableArray *connectionQueue;
 
-- (MockUrlConnection *)fetchRequestConnection;
+@property (nonatomic, readonly, strong) MockUrlConnection *fetchRequestConnection;
 
 @end

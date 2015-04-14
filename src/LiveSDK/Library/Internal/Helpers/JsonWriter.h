@@ -101,15 +101,15 @@ extern NSString * const MSJSONWriterCycleException;
 // specified value (which must be an "object" value).  This schema should follow
 // the same conventions as the return value from 'JSONMemberKeys' (and if it is
 // specified, then JSONMemberKeys will not be called on the root object value).
-- (id) initWithValue:(id)value;
-- (id) initWithValue:(id)value memberInfo:(id)schema;
+- (instancetype) initWithValue:(id)value;
+- (instancetype) initWithValue:(id)value memberInfo:(id)schema NS_DESIGNATED_INITIALIZER;
 
 // This method generates and returns the JSON text for the object value specified
 // in the initializer. If called multiple times, the generation will only happen
 // once (the result is cached), so if the value is changed after this method is
 // called a new Writer should be created to generate JSON text that reflects those
 // changes.
-- (NSString*) JSONText;
+@property (nonatomic, readonly, copy) NSString *JSONText;
 
 @property (readwrite, assign) SEL memberKeysSelector;
 
@@ -147,8 +147,8 @@ extern NSString * const MSJSONWriterCycleException;
 // class or customize which member keys will be written for a JSON object.
 
 @interface NSObject (MSJSONWriter_Extensions)
-- (NSString*) JSONDescription;
-- (id) JSONMemberKeys;
+@property (nonatomic, readonly, copy) NSString *JSONDescription;
+@property (nonatomic, readonly, strong) id JSONMemberKeys;
 @end
 
 // ------------------------------------
@@ -164,14 +164,14 @@ extern NSString * const MSJSONWriterCycleException;
 // [NSNumber numberWithBool:<val>].
 
 @interface NSDate (MSJSONWriter_Extensions)
-- (NSString*) JSONDescription;
+@property (nonatomic, readonly, copy) NSString *JSONDescription;
 @end
 
 @interface NSNumber (MSJSONWriter_Extensions)
-- (NSString*) JSONDescription;
+@property (nonatomic, readonly, copy) NSString *JSONDescription;
 @end
 
 @interface NSNull (MSJSONWriter_Extensions)
-- (NSString*) JSONDescription;
+@property (nonatomic, readonly, copy) NSString *JSONDescription;
 @end
 

@@ -25,7 +25,7 @@
 
 
 // An enum type representing the user's session status.
-typedef enum 
+typedef NS_ENUM(unsigned int, LiveConnectSessionStatus) 
 {
     // The user is unknown.
     LiveAuthUnknown = 0,
@@ -36,4 +36,4 @@ typedef enum
     // The user has not consented to the scopes the app specified yet
     LiveAuthNotConnected = 2,
     
-} LiveConnectSessionStatus;
+};

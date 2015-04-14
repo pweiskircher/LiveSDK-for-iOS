@@ -55,7 +55,7 @@
          completed,
          httpError;
 
-- (id) initWithMethod:(NSString *)method
+- (instancetype) initWithMethod:(NSString *)method
                  path:(NSString *)path
           requestBody:(NSData *)requestBody
              delegate:(id)delegate
@@ -67,10 +67,10 @@
     {
         _method = [method copy];
         _path = [path copy];
-        _requestBody = [requestBody retain];
+        _requestBody = requestBody;
         _delegate = delegate;
-        _userState = [userState retain]; 
-        _liveClient = [liveClient retain];
+        _userState = userState; 
+        _liveClient = liveClient;
         httpError = nil;
         completed = NO;
     }
@@ -78,7 +78,7 @@
     return self;
 }
 
-- (id) initWithMethod:(NSString *)method
+- (instancetype) initWithMethod:(NSString *)method
                  path:(NSString *)path
           inputStream:(NSInputStream *)inputStream
              delegate:(id)delegate
@@ -90,36 +90,16 @@
     {
         _method = [method copy];
         _path = [path copy];
-        _inputStream = [inputStream retain];
+        _inputStream = inputStream;
         _delegate = delegate;
-        _userState = [userState retain]; 
-        _liveClient = [liveClient retain];
+        _userState = userState; 
+        _liveClient = liveClient;
         completed = NO;
     }
     
     return self;
 }
 
-- (void)dealloc 
-{
-    [_method release];
-    [_path release];
-    [_requestBody release];
-    [_userState release];
-    [_liveClient release];
-    [_inputStream release];
-    [streamReader release];
-    [request release];
-    [rawResult release];
-    [result release];
-    [connection release];
-    [responseData release];
-    [publicOperation release];
-    [httpResponse release];
-    [httpError release];
-    
-    [super dealloc];
-}
 
 - (void) execute 
 {
@@ -167,9 +147,8 @@
 
 - (void) readInputStream
 {
-    self.streamReader = [[[StreamReader alloc]initWithStream:_inputStream
-                                                    delegate:self]
-                         autorelease ];
+    self.streamReader = [[StreamReader alloc]initWithStream:_inputStream
+                                                    delegate:self];
     [self.streamReader start];
 }
 

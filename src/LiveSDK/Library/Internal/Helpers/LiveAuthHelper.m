@@ -61,7 +61,7 @@ NSString * LIVE_ENDPOINT_LOGIN_HOST = @"login.live.com";
     NSMutableArray *normalScopes = [NSMutableArray array];
     for (NSUInteger i = 0; i < scopes.count; i++) 
     {
-        NSString *scope = [scopes objectAtIndex:i];
+        NSString *scope = scopes[i];
         if (![StringHelper isNullOrEmpty:scope])
         {
             [normalScopes addObject: [scope lowercaseString]];
@@ -106,7 +106,7 @@ NSString * LIVE_ENDPOINT_LOGIN_HOST = @"login.live.com";
                          redirectUri:(NSString *)redirectUri
                               scopes:(NSArray *)scopes
 {
-    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    NSString *language = [NSLocale preferredLanguages][0];
     NSString * scopesString = [scopes componentsJoinedByString:@" "];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                               clientId, LIVE_AUTH_CLIENTID,
@@ -167,18 +167,15 @@ NSString * LIVE_ENDPOINT_LOGIN_HOST = @"login.live.com";
                    innerError:(NSError *)innerError
 {
     return [LiveAuthHelper createAuthError:code
-                                      info:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                 errorStr, LIVE_ERROR_KEY_ERROR,
-                                              description, LIVE_ERROR_KEY_DESCRIPTION,
-                                               innerError, LIVE_ERROR_KEY_INNER_ERROR,
-                                                      nil]];
+                                      info:@{LIVE_ERROR_KEY_ERROR: errorStr,
+                                              LIVE_ERROR_KEY_DESCRIPTION: description,
+                                               LIVE_ERROR_KEY_INNER_ERROR: innerError}];
 }
 
 + (id) readAuthResponse:(NSData *)data
 {
-    NSString* responseString = [[[NSString alloc] initWithData:data
-                                                     encoding:NSUTF8StringEncoding]
-                                autorelease];
+    NSString* responseString = [[NSString alloc] initWithData:data
+                                                     encoding:NSUTF8StringEncoding];
     NSError *error = nil;
     NSDictionary *params = [MSJSONParser parseText:responseString 
                                              error:&error ];
@@ -193,12 +190,11 @@ NSString * LIVE_ENDPOINT_LOGIN_HOST = @"login.live.com";
         NSTimeInterval expiresIn = [expiresInStr doubleValue];
         NSDate *expires = [NSDate dateWithTimeIntervalSinceNow:expiresIn];
         
-        LiveConnectSession *session = [[[LiveConnectSession alloc] initWithAccessToken:accessToken 
+        LiveConnectSession *session = [[LiveConnectSession alloc] initWithAccessToken:accessToken 
                                                                    authenticationToken:authenticationToken 
                                                                           refreshToken:refreshToken 
                                                                                 scopes:scopes 
-                                                                               expires:expires]
-                                       autorelease];
+                                                                               expires:expires];
         return session;
     }
     else 

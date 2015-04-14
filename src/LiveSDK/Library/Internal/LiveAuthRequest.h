@@ -33,7 +33,7 @@
 @class LiveConnectClientCore;
 
 // An enum type representing the user's session status.
-typedef enum 
+typedef NS_ENUM(unsigned int, LiveAuthRequstStatus) 
 {
     AuthNotStarted  = 0,
     AuthAuthorized = 1,
@@ -42,7 +42,7 @@ typedef enum
     AuthFailed = 4,
     AuthCompleted = 5
     
-} LiveAuthRequstStatus;
+};
 
 // Represents a Live service authorization request that handes
 // 1) Ask the user to authorize the app for specific scopes.
@@ -58,20 +58,20 @@ typedef enum
 } 
 
 @property (nonatomic, readonly) BOOL isUserInvolved;
-@property (nonatomic, retain) NSString *authCode;
-@property (nonatomic, retain) LiveConnectSession *session;
-@property (nonatomic, retain) UIViewController *currentViewController;
-@property (nonatomic, retain) LiveAuthDialog *authViewController;
+@property (nonatomic, strong) NSString *authCode;
+@property (nonatomic, strong) LiveConnectSession *session;
+@property (nonatomic, strong) UIViewController *currentViewController;
+@property (nonatomic, strong) LiveAuthDialog *authViewController;
 @property (nonatomic) LiveAuthRequstStatus status;
-@property (nonatomic, retain) NSError *error;
-@property (nonatomic, retain) id tokenConnection;
-@property (nonatomic, retain) NSMutableData *tokenResponseData;
+@property (nonatomic, strong) NSError *error;
+@property (nonatomic, strong) id tokenConnection;
+@property (nonatomic, strong) NSMutableData *tokenResponseData;
 
-- (id) initWithClient:(LiveConnectClientCore *)client
+- (instancetype) initWithClient:(LiveConnectClientCore *)client
                scopes:(NSArray *)scopes
 currentViewController:(UIViewController *)currentViewController
              delegate:(id<LiveAuthDelegate>)delegate
-            userState:(id)userState;
+            userState:(id)userState NS_DESIGNATED_INITIALIZER;
                 
 - (void)execute;
 - (void)process;

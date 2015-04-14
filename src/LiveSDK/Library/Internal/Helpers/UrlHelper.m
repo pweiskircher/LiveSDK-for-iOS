@@ -47,15 +47,14 @@
 
 + (NSDictionary *) decodeUrlParameters: (NSString *)paramStr
 {
-    NSMutableDictionary *params = [[[NSMutableDictionary alloc] init] autorelease];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
     
     NSArray *kvStrs = [paramStr componentsSeparatedByString: @"&"];
     for (NSString *kvStr in kvStrs) 
     {
         NSArray *kv = [kvStr componentsSeparatedByString: @"="];
         
-        [params setObject:[[kv objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] 
-                   forKey:[kv objectAtIndex:0]];
+        params[kv[0]] = [kv[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     }
     
     return params;

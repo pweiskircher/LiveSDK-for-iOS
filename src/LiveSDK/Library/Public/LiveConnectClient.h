@@ -44,7 +44,7 @@
 @interface LiveConnectClient : NSObject 
 
 // The user's current session object.
-@property(nonatomic, readonly) LiveConnectSession *session;
+@property(weak, nonatomic, readonly) LiveConnectSession *session;
 
 #pragma mark - init* methods
 
@@ -68,21 +68,21 @@
 // - userState: Optional. An object that is used to track asynchronous state. The userState object will 
 //         be passed as userState parameter when any LiveAuthDelegate protocol method is invoked.
 
-- (id) initWithClientId:(NSString *)clientId
+- (instancetype) initWithClientId:(NSString *)clientId
                delegate:(id<LiveAuthDelegate>)delegate;
 
-- (id) initWithClientId:(NSString *)clientId
+- (instancetype) initWithClientId:(NSString *)clientId
                delegate:(id<LiveAuthDelegate>)delegate
               userState:(id)userState;
 
-- (id) initWithClientId:(NSString *)clientId
+- (instancetype) initWithClientId:(NSString *)clientId
                  scopes:(NSArray *)scopes
                delegate:(id<LiveAuthDelegate>)delegate;
 
-- (id) initWithClientId:(NSString *)clientId
+- (instancetype) initWithClientId:(NSString *)clientId
                  scopes:(NSArray *)scopes
                delegate:(id<LiveAuthDelegate>)delegate
-              userState:(id)userState;
+              userState:(id)userState NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - login* methods
 

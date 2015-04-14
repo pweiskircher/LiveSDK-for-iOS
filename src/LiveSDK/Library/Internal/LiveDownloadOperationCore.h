@@ -34,9 +34,9 @@
     NSUInteger contentLength;
 }
 
-- (id) initWithPath:(NSString *)path
+- (instancetype) initWithPath:(NSString *)path
            delegate:(id <LiveDownloadOperationDelegate>)delegate
           userState:(id)userState
-         liveClient:(LiveConnectClientCore *)liveClient;
+         liveClient:(LiveConnectClientCore *)liveClient NS_DESIGNATED_INITIALIZER;
 
 @end

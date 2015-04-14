@@ -43,7 +43,6 @@
 {
     LiveAuthStorage *storage = [[LiveAuthStorage alloc] initWithClientId:self.clientId];
     storage.refreshToken = refreshToken;
-    [storage release];     
 }
 
 - (void) clearStorage
@@ -55,28 +54,24 @@
 {
     [self setRefreshToken:@"refresh token"];
     
-    NSArray *scopes = [NSArray arrayWithObjects:@"wl.signin", @"wl.basic", nil];
+    NSArray *scopes = @[@"wl.signin", @"wl.basic"];
     NSString *userState = @"init";
-    LiveConnectClient *liveClient = [[[LiveConnectClient alloc] initWithClientId:self.clientId 
+    LiveConnectClient *liveClient = [[LiveConnectClient alloc] initWithClientId:self.clientId 
                                                                           scopes:scopes 
                                                                         delegate:self.listener 
-                                                                       userState:userState]
-                                     autorelease];
+                                                                       userState:userState];
     
     // Validate outbound request
     MockUrlConnection *connection = [self.factory fetchRequestConnection];
     NSURLRequest *request = connection.request;
     
-    STAssertEqualObjects(@"POST", [request HTTPMethod], @"Method should be POST");
-    STAssertEqualObjects(@"https://login.live.com/oauth20_token.srf", request.URL.absoluteString, @"Invalid url");
-    
-    NSString *requestBodyString = [[[NSString alloc] initWithData:request.HTTPBody
-                                                         encoding:NSUTF8StringEncoding] 
-                                   autorelease];
+    XCTAssertEqualObjects(@"POST", [request HTTPMethod], @"Method should be POST");
+    XCTAssertEqualObjects(@"https://login.live.com/oauth20_token.srf", request.URL.absoluteString, @"Invalid url");
+
     
     // set response
     id delegate = connection.delegate;
-    MockResponse *response = [[[MockResponse alloc] init] autorelease];
+    MockResponse *response = [[MockResponse alloc] init];
     response.statusCode = 200;
     [delegate connection:connection didReceiveResponse:response];
     
@@ -87,12 +82,10 @@
     NSString *scopesStr = @"wl.signin wl.basic";
     NSString *expiresIn = @"3600";
     
-    NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  accessToken, LIVE_AUTH_ACCESS_TOKEN, 
-                                  authenticationToken, LIVE_AUTH_AUTHENTICATION_TOKEN,
-                                  refreshToken, LIVE_AUTH_REFRESH_TOKEN,
-                                  scopesStr, LIVE_AUTH_SCOPE, expiresIn, LIVE_AUTH_EXPIRES_IN, 
-                                  nil];
+    NSDictionary *responseDict = @{LIVE_AUTH_ACCESS_TOKEN: accessToken, 
+                                  LIVE_AUTH_AUTHENTICATION_TOKEN: authenticationToken,
+                                  LIVE_AUTH_REFRESH_TOKEN: refreshToken,
+                                  LIVE_AUTH_SCOPE: scopesStr, LIVE_AUTH_EXPIRES_IN: expiresIn};
     NSString *responseText = [MSJSONWriter textForValue:responseDict];
     NSData *data = [responseText dataUsingEncoding:NSUTF8StringEncoding]; 
     [delegate connection:connection didReceiveData:data]; 
@@ -101,32 +94,26 @@
     [delegate connectionDidFinishLoading:connection];
     
     // validate event
-    STAssertEquals((NSUInteger)1, listener.events.count, @"Should receive 1 event.");
+    XCTAssertEqual((NSUInteger)1, listener.events.count, @"Should receive 1 event.");
     
     NSDictionary *eventArgs = [listener fetchEvent];
     
-    STAssertEquals(LiveAuthConnected, (LiveConnectSessionStatus)[[eventArgs objectForKey:LIVE_UNIT_STATUS] intValue], @"Invalid status");
-    STAssertNotNil([eventArgs objectForKey:LIVE_UNIT_SESSION], @"session should not be nil");
-    STAssertEqualObjects(userState, [eventArgs objectForKey:LIVE_UNIT_USERSTATE], @"incorrect userState");
+    XCTAssertEqual(LiveAuthConnected, (LiveConnectSessionStatus)[eventArgs[LIVE_UNIT_STATUS] intValue], @"Invalid status");
+    XCTAssertNotNil(eventArgs[LIVE_UNIT_SESSION], @"session should not be nil");
+    XCTAssertEqualObjects(userState, eventArgs[LIVE_UNIT_USERSTATE], @"incorrect userState");
     
     return liveClient;
 }
 
 #pragma mark - Set up and tear down
 
-- (void) dealloc
-{
-    [factory release];
-    [clientId release];
-    [super dealloc];
-}
 
 - (void) setUp 
 {
     self.clientId = @"56789999932";
     self.factory = [MockFactory factory];
     [LiveConnectionHelper setLiveConnectCreator:self.factory];
-    self.listener = [[[LiveConnectClientListener alloc]init]autorelease];
+    self.listener = [[LiveConnectClientListener alloc]init];
     [self clearStorage];
 }
 
@@ -150,8 +137,8 @@
                                                delegate:self.listener 
                                               userState:userState];
     
-    STAssertEqualObjects(path, operation.path, @"Path invalid");
-    STAssertEqualObjects(@"GET", operation.method, @"METHOD invalid");
+    XCTAssertEqualObjects(path, operation.path, @"Path invalid");
+    XCTAssertEqualObjects(@"GET", operation.method, @"METHOD invalid");
     
     // We should get an async event right away. We use the NSRunLoop to allow the async event to kick in.
     NSDate *timeout = [NSDate dateWithTimeIntervalSinceNow:10];
@@ -165,13 +152,13 @@
     MockUrlConnection *connection = [self.factory fetchRequestConnection];
     NSURLRequest *request = connection.request;
     
-    STAssertEqualObjects(@"GET", [request HTTPMethod], @"Method should be GET");
-    STAssertEqualObjects(@"https://apis.live.net/v5.0/me?suppress_response_codes=true&suppress_redirects=true", request.URL.absoluteString, @"Invalid url");
+    XCTAssertEqualObjects(@"GET", [request HTTPMethod], @"Method should be GET");
+    XCTAssertEqualObjects(@"https://apis.live.net/v5.0/me?suppress_response_codes=true&suppress_redirects=true", request.URL.absoluteString, @"Invalid url");
     
     
     // set response
     id delegate = connection.delegate;
-    MockResponse *response = [[[MockResponse alloc] init] autorelease];
+    MockResponse *response = [[MockResponse alloc] init];
     response.statusCode = 200;
     [delegate connection:connection didReceiveResponse:response];
     
@@ -180,11 +167,9 @@
     NSString *name = @"Alice W.";
     NSString *gender = @"female";
     
-    NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  cid, @"id", 
-                                  name, @"name",
-                                  gender, @"gender",
-                                  nil];
+    NSDictionary *responseDict = @{@"id": cid, 
+                                  @"name": name,
+                                  @"gender": gender};
     NSString *responseText = [MSJSONWriter textForValue:responseDict];
     NSData *data = [responseText dataUsingEncoding:NSUTF8StringEncoding]; 
     [delegate connection:connection didReceiveData:data]; 
@@ -193,19 +178,19 @@
     [delegate connectionDidFinishLoading:connection];
     
     // validate event
-    STAssertEquals((NSUInteger)1, listener.events.count, @"Should receive 1 event.");
+    XCTAssertEqual((NSUInteger)1, listener.events.count, @"Should receive 1 event.");
     
     NSDictionary *eventArgs = [listener fetchEvent];
     
-    STAssertEquals(LIVE_UNIT_OPCOMPLETED, [eventArgs objectForKey:LIVE_UNIT_EVENT], @"Incorrect event.");
-    STAssertNotNil([eventArgs objectForKey:LIVE_UNIT_OPERATION], @"operation should be nil");
-    STAssertEqualObjects(operation, [eventArgs objectForKey:LIVE_UNIT_OPERATION], @"operation instance should be the same.");
+    XCTAssertEqual(LIVE_UNIT_OPCOMPLETED, eventArgs[LIVE_UNIT_EVENT], @"Incorrect event.");
+    XCTAssertNotNil(eventArgs[LIVE_UNIT_OPERATION], @"operation should be nil");
+    XCTAssertEqualObjects(operation, eventArgs[LIVE_UNIT_OPERATION], @"operation instance should be the same.");
     
-    STAssertNotNil(operation.rawResult, @"rawresult should not be nil");
+    XCTAssertNotNil(operation.rawResult, @"rawresult should not be nil");
     
-    STAssertEqualObjects(cid, [operation.result objectForKey:@"id"], @"Incorrect id value");
-    STAssertEqualObjects(name, [operation.result objectForKey:@"name"], @"Incorrect name value");
-    STAssertEqualObjects(gender, [operation.result objectForKey:@"gender"], @"Incorrect gender value");    
+    XCTAssertEqualObjects(cid, (operation.result)[@"id"], @"Incorrect id value");
+    XCTAssertEqualObjects(name, (operation.result)[@"name"], @"Incorrect name value");
+    XCTAssertEqualObjects(gender, (operation.result)[@"gender"], @"Incorrect gender value");    
 }
 
 - (void) testPost
@@ -215,12 +200,12 @@
     NSString *firstName = @"Alice";
     NSString *lastName = @"Wang";
     LiveConnectClient *liveClient = [self createAuthenticatedClient];
-    NSDictionary *dictBody = [NSDictionary dictionaryWithObjectsAndKeys:firstName,@"first_name", lastName, @"last_name", nil];
+    NSDictionary *dictBody = @{@"first_name": firstName, @"last_name": lastName};
     NSString *jsonBody = [MSJSONWriter textForValue:dictBody];
     LiveOperation * operation = [liveClient postWithPath:path dictBody:dictBody delegate:self.listener userState:userState];
     
-    STAssertEqualObjects(path, operation.path, @"Path invalid");
-    STAssertEqualObjects(@"POST", operation.method, @"METHOD invalid");
+    XCTAssertEqualObjects(path, operation.path, @"Path invalid");
+    XCTAssertEqualObjects(@"POST", operation.method, @"METHOD invalid");
     
     // We should get an async event right away. We use the NSRunLoop to allow the async event to kick in.
     NSDate *timeout = [NSDate dateWithTimeIntervalSinceNow:10];
@@ -234,14 +219,14 @@
     MockUrlConnection *connection = [self.factory fetchRequestConnection];
     NSURLRequest *request = connection.request;
     
-    STAssertEqualObjects(@"POST", [request HTTPMethod], @"Method should be POST");
-    STAssertEqualObjects(@"https://apis.live.net/v5.0/me/contacts?suppress_response_codes=true&suppress_redirects=true", request.URL.absoluteString, @"Invalid url");
-    STAssertEqualObjects(jsonBody,  [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding], @"Request body incorrrect.");
-    STAssertEqualObjects(LIVE_API_HEADER_CONTENTTYPE_JSON, [request valueForHTTPHeaderField:LIVE_API_HEADER_CONTENTTYPE], @"Incorrect content-type.");
+    XCTAssertEqualObjects(@"POST", [request HTTPMethod], @"Method should be POST");
+    XCTAssertEqualObjects(@"https://apis.live.net/v5.0/me/contacts?suppress_response_codes=true&suppress_redirects=true", request.URL.absoluteString, @"Invalid url");
+    XCTAssertEqualObjects(jsonBody,  [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding], @"Request body incorrrect.");
+    XCTAssertEqualObjects(LIVE_API_HEADER_CONTENTTYPE_JSON, [request valueForHTTPHeaderField:LIVE_API_HEADER_CONTENTTYPE], @"Incorrect content-type.");
     
     // set response
     id delegate = connection.delegate;
-    MockResponse *response = [[[MockResponse alloc] init] autorelease];
+    MockResponse *response = [[MockResponse alloc] init];
     response.statusCode = 200;
     [delegate connection:connection didReceiveResponse:response];
     
@@ -250,11 +235,9 @@
     NSString *name = @"Alice W.";
     NSString *gender = @"female";
     
-    NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  cid, @"id", 
-                                  name, @"name",
-                                  gender, @"gender",
-                                  nil];
+    NSDictionary *responseDict = @{@"id": cid, 
+                                  @"name": name,
+                                  @"gender": gender};
     NSString *responseText = [MSJSONWriter textForValue:responseDict];
     NSData *data = [responseText dataUsingEncoding:NSUTF8StringEncoding]; 
     [delegate connection:connection didReceiveData:data]; 
@@ -263,19 +246,19 @@
     [delegate connectionDidFinishLoading:connection];
     
     // validate event
-    STAssertEquals((NSUInteger)1, listener.events.count, @"Should receive 1 event.");
+    XCTAssertEqual((NSUInteger)1, listener.events.count, @"Should receive 1 event.");
     
     NSDictionary *eventArgs = [listener fetchEvent];
     
-    STAssertEquals(LIVE_UNIT_OPCOMPLETED, [eventArgs objectForKey:LIVE_UNIT_EVENT], @"Incorrect event.");
-    STAssertNotNil([eventArgs objectForKey:LIVE_UNIT_OPERATION], @"operation should be nil");
-    STAssertEqualObjects(operation, [eventArgs objectForKey:LIVE_UNIT_OPERATION], @"operation instance should be the same.");
+    XCTAssertEqual(LIVE_UNIT_OPCOMPLETED, eventArgs[LIVE_UNIT_EVENT], @"Incorrect event.");
+    XCTAssertNotNil(eventArgs[LIVE_UNIT_OPERATION], @"operation should be nil");
+    XCTAssertEqualObjects(operation, eventArgs[LIVE_UNIT_OPERATION], @"operation instance should be the same.");
     
-    STAssertNotNil(operation.rawResult, @"rawresult should not be nil");
+    XCTAssertNotNil(operation.rawResult, @"rawresult should not be nil");
     
-    STAssertEqualObjects(cid, [operation.result objectForKey:@"id"], @"Incorrect id value");
-    STAssertEqualObjects(name, [operation.result objectForKey:@"name"], @"Incorrect name value");
-    STAssertEqualObjects(gender, [operation.result objectForKey:@"gender"], @"Incorrect gender value");    
+    XCTAssertEqualObjects(cid, (operation.result)[@"id"], @"Incorrect id value");
+    XCTAssertEqualObjects(name, (operation.result)[@"name"], @"Incorrect name value");
+    XCTAssertEqualObjects(gender, (operation.result)[@"gender"], @"Incorrect gender value");    
 }
 
 - (void) testCopy
@@ -287,8 +270,8 @@
     
     LiveOperation * operation = [liveClient copyFromPath:path toDestination:destination delegate:self.listener userState:userState];
                                  
-    STAssertEqualObjects(path, operation.path, @"Path invalid");
-    STAssertEqualObjects(@"COPY", operation.method, @"Method invalid");
+    XCTAssertEqualObjects(path, operation.path, @"Path invalid");
+    XCTAssertEqualObjects(@"COPY", operation.method, @"Method invalid");
     
     // We should get an async event right away. We use the NSRunLoop to allow the async event to kick in.
     NSDate *timeout = [NSDate dateWithTimeIntervalSinceNow:10];
@@ -302,20 +285,20 @@
     MockUrlConnection *connection = [self.factory fetchRequestConnection];
     NSURLRequest *request = connection.request;
     
-    STAssertEqualObjects(@"COPY", [request HTTPMethod], @"Method should be COPY");
-    STAssertEqualObjects(@"https://apis.live.net/v5.0/file.12345678?suppress_response_codes=true&suppress_redirects=true", request.URL.absoluteString, @"Invalid url");
+    XCTAssertEqualObjects(@"COPY", [request HTTPMethod], @"Method should be COPY");
+    XCTAssertEqualObjects(@"https://apis.live.net/v5.0/file.12345678?suppress_response_codes=true&suppress_redirects=true", request.URL.absoluteString, @"Invalid url");
    
-    NSDictionary *dictBody = [NSDictionary dictionaryWithObjectsAndKeys:destination ,@"destination", nil];
+    NSDictionary *dictBody = @{@"destination": destination};
     NSString *jsonBody = [MSJSONWriter textForValue:dictBody];
-    STAssertEqualObjects(jsonBody,[[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding], @"Request body incorrrect.");
-    STAssertEqualObjects(LIVE_API_HEADER_CONTENTTYPE_JSON, [request valueForHTTPHeaderField:LIVE_API_HEADER_CONTENTTYPE], @"Incorrect content-type.");
+    XCTAssertEqualObjects(jsonBody,[[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding], @"Request body incorrrect.");
+    XCTAssertEqualObjects(LIVE_API_HEADER_CONTENTTYPE_JSON, [request valueForHTTPHeaderField:LIVE_API_HEADER_CONTENTTYPE], @"Incorrect content-type.");
     
     NSString *tokenHeader = [NSString stringWithFormat:@"bearer %@", liveClient.session.accessToken];
-    STAssertEqualObjects(tokenHeader, [request valueForHTTPHeaderField:LIVE_API_HEADER_AUTHORIZATION], @"Token invalid");
+    XCTAssertEqualObjects(tokenHeader, [request valueForHTTPHeaderField:LIVE_API_HEADER_AUTHORIZATION], @"Token invalid");
     
     // set response
     id delegate = connection.delegate;
-    MockResponse *response = [[[MockResponse alloc] init] autorelease];
+    MockResponse *response = [[MockResponse alloc] init];
     response.statusCode = 200;
     [delegate connection:connection didReceiveResponse:response];
     
@@ -323,10 +306,8 @@
     
     NSString *name = @"Alice W.";
     
-    NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  path, @"id", 
-                                  name, @"name",
-                                  nil];
+    NSDictionary *responseDict = @{@"id": path, 
+                                  @"name": name};
     NSString *responseText = [MSJSONWriter textForValue:responseDict];
     NSData *data = [responseText dataUsingEncoding:NSUTF8StringEncoding]; 
     [delegate connection:connection didReceiveData:data]; 
@@ -335,18 +316,18 @@
     [delegate connectionDidFinishLoading:connection];
     
     // validate event
-    STAssertEquals((NSUInteger)1, listener.events.count, @"Should receive 1 event.");
+    XCTAssertEqual((NSUInteger)1, listener.events.count, @"Should receive 1 event.");
     
     NSDictionary *eventArgs = [listener fetchEvent];
     
-    STAssertEquals(LIVE_UNIT_OPCOMPLETED, [eventArgs objectForKey:LIVE_UNIT_EVENT], @"Incorrect event.");
-    STAssertNotNil([eventArgs objectForKey:LIVE_UNIT_OPERATION], @"operation should be nil");
-    STAssertEqualObjects(operation, [eventArgs objectForKey:LIVE_UNIT_OPERATION], @"operation instance should be the same.");
+    XCTAssertEqual(LIVE_UNIT_OPCOMPLETED, eventArgs[LIVE_UNIT_EVENT], @"Incorrect event.");
+    XCTAssertNotNil(eventArgs[LIVE_UNIT_OPERATION], @"operation should be nil");
+    XCTAssertEqualObjects(operation, eventArgs[LIVE_UNIT_OPERATION], @"operation instance should be the same.");
     
-    STAssertNotNil(operation.rawResult, @"rawresult should not be nil");
+    XCTAssertNotNil(operation.rawResult, @"rawresult should not be nil");
     
-    STAssertEqualObjects(path, [operation.result objectForKey:@"id"], @"Incorrect id value");
-    STAssertEqualObjects(name, [operation.result objectForKey:@"name"], @"Incorrect name value");   
+    XCTAssertEqualObjects(path, (operation.result)[@"id"], @"Incorrect id value");
+    XCTAssertEqualObjects(name, (operation.result)[@"name"], @"Incorrect name value");   
 }
 
 @end

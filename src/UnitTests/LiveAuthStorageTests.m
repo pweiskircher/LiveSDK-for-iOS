@@ -40,45 +40,40 @@ NSString * const CLIENTB = @"clientB";
 {
     LiveAuthStorage *storage = [[LiveAuthStorage alloc] initWithClientId:CLIENTA];
     storage.refreshToken = nil;
-    [storage release];  
 }
 
 - (void)testWriteToken
 {
     // first time should receive nil refreshToken
     LiveAuthStorage *storage = [[LiveAuthStorage alloc] initWithClientId:CLIENTA];
-    STAssertNil(storage.refreshToken, @"There is an existing persisted token.");
+    XCTAssertNil(storage.refreshToken, @"There is an existing persisted token.");
     
     // write a token
     NSString *token = @"refresh token value";
     storage.refreshToken = token;
-    STAssertEqualObjects(token, storage.refreshToken, @"setRefreshToken does not work properly.");
-    [storage release];
+    XCTAssertEqualObjects(token, storage.refreshToken, @"setRefreshToken does not work properly.");
     
     // check if persisted
     storage = [[LiveAuthStorage alloc] initWithClientId:CLIENTA];
-    STAssertEqualObjects(token, storage.refreshToken, @"The data was not persisted properly.");
+    XCTAssertEqualObjects(token, storage.refreshToken, @"The data was not persisted properly.");
     
     // write a different token
     token = @"refresh token value 2";
     storage.refreshToken = token;
-    STAssertEqualObjects(token, storage.refreshToken, @"setRefreshToken does not work properly.");
-    [storage release];
+    XCTAssertEqualObjects(token, storage.refreshToken, @"setRefreshToken does not work properly.");
     
     // check if the change persisted
     storage = [[LiveAuthStorage alloc] initWithClientId:CLIENTA];
-    STAssertEqualObjects(token, storage.refreshToken, @"The data was not persisted properly.");
+    XCTAssertEqualObjects(token, storage.refreshToken, @"The data was not persisted properly.");
     
     // write a nil token
     token = nil;
     storage.refreshToken = token;
-    STAssertEqualObjects(token, storage.refreshToken, @"setRefreshToken does not work properly.");
-    [storage release];
+    XCTAssertEqualObjects(token, storage.refreshToken, @"setRefreshToken does not work properly.");
     
     // check if the nil value persisted
     storage = [[LiveAuthStorage alloc] initWithClientId:CLIENTA];
-    STAssertNil(storage.refreshToken, @"The nil value was not persisted properly.");
-    [storage release];    
+    XCTAssertNil(storage.refreshToken, @"The nil value was not persisted properly.");
 }
 
 - (void) testClientIdCheck
@@ -87,17 +82,14 @@ NSString * const CLIENTB = @"clientB";
     LiveAuthStorage *storage = [[LiveAuthStorage alloc] initWithClientId:CLIENTA];
     NSString *token = @"refresh token value";
     storage.refreshToken = token;
-    [storage release];
     
     // Init with an LiveAuthStorage instance with CLIENTB, the token with CLIENTA should be cleared.
     storage = [[LiveAuthStorage alloc] initWithClientId:CLIENTB];
-    STAssertNil(storage.refreshToken, @"The new client storage did not flush the token associated with a different client ID");
-    [storage release];
+    XCTAssertNil(storage.refreshToken, @"The new client storage did not flush the token associated with a different client ID");
     
     // Switch back to CLIENTA, it should be flushed.
     storage = [[LiveAuthStorage alloc] initWithClientId:CLIENTA];
-    STAssertNil(storage.refreshToken, @"The flushing did not work.");
-    [storage release];
+    XCTAssertNil(storage.refreshToken, @"The flushing did not work.");
 }
 
 @end

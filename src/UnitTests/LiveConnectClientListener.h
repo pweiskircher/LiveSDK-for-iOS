@@ -41,7 +41,7 @@ static NSString * const LIVE_UNIT_OPERATION = @"operation";
 
 @interface LiveConnectClientListener : NSObject<LiveAuthDelegate, LiveOperationDelegate>
 
-@property (nonatomic, retain) NSMutableArray *events;
+@property (nonatomic, strong) NSMutableArray *events;
 
-- (NSDictionary *)fetchEvent;
+@property (nonatomic, readonly, copy) NSDictionary *fetchEvent;
 @end

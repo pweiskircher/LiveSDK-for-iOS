@@ -75,11 +75,9 @@
                      message:(NSString *)message
                   innerError:(NSError *)error
 {
-    return [LiveApiHelper createAPIError:[NSDictionary dictionaryWithObjectsAndKeys:
-                                              code, LIVE_ERROR_KEY_CODE,
-                                           message, LIVE_ERROR_KEY_MESSAGE,
-                                             error, LIVE_ERROR_KEY_INNER_ERROR,
-                                          nil]];
+    return [LiveApiHelper createAPIError:@{LIVE_ERROR_KEY_CODE: code,
+                                           LIVE_ERROR_KEY_MESSAGE: message,
+                                             LIVE_ERROR_KEY_INNER_ERROR: error}];
 }
 
 + (NSString *) getXHTTPLiveLibraryHeaderValue
@@ -106,14 +104,13 @@
     if (data == nil)
     {
         *textResponse = @"";
-        *response = [NSDictionary dictionary];
+        *response = @{};
         *error = nil;
         return;
     }
     
-    *textResponse = [[[NSString alloc] initWithData:data
-                                           encoding:NSUTF8StringEncoding]
-                     autorelease];
+    *textResponse = [[NSString alloc] initWithData:data
+                                           encoding:NSUTF8StringEncoding];
         
     *response = [MSJSONParser parseText:*textResponse 
                                   error:error ];
@@ -128,7 +125,7 @@
 + (NSString *) buildCopyMoveBody:(NSString *)destination
 {
     return [MSJSONWriter textForValue:
-            [NSDictionary dictionaryWithObjectsAndKeys:destination, @"destination", nil]];
+            @{@"destination": destination}];
 }
 
 @end

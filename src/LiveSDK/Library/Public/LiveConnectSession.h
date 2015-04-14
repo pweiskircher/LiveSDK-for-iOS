@@ -30,11 +30,11 @@
 // access token, authentication token, refresh token, session scope values and expires time.
 @interface LiveConnectSession : NSObject
 
-- (id) initWithAccessToken:(NSString *)accessToken
+- (instancetype) initWithAccessToken:(NSString *)accessToken
        authenticationToken:(NSString *)authenticationToken
               refreshToken:(NSString *)refreshToken
                     scopes:(NSArray *)scopes
-                   expires:(NSDate *)expires;
+                   expires:(NSDate *)expires NS_DESIGNATED_INITIALIZER;
 
 // The access token that is used when consuming Live Services REST API.
 @property (nonatomic, readonly) NSString *accessToken;

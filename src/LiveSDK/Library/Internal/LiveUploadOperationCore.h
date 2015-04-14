@@ -38,20 +38,20 @@
     LiveUploadOverwriteOption _overwrite;
 }
 
-- (id) initWithPath:(NSString *)path
+- (instancetype) initWithPath:(NSString *)path
            fileName:(NSString *)fileName
                data:(NSData *)data
           overwrite:(LiveUploadOverwriteOption)overwrite
            delegate:(id <LiveUploadOperationDelegate>)delegate
           userState:(id)userState
-         liveClient:(LiveConnectClientCore *)liveClient;
+         liveClient:(LiveConnectClientCore *)liveClient NS_DESIGNATED_INITIALIZER;
 
-- (id) initWithPath:(NSString *)path
+- (instancetype) initWithPath:(NSString *)path
            fileName:(NSString *)fileName
         inputStream:(NSInputStream *)inputStream
           overwrite:(LiveUploadOverwriteOption)overwrite
            delegate:(id <LiveUploadOperationDelegate>)delegate
           userState:(id)userState
-         liveClient:(LiveConnectClientCore *)liveClient;
+         liveClient:(LiveConnectClientCore *)liveClient NS_DESIGNATED_INITIALIZER;
 
 @end

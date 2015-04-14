@@ -32,12 +32,12 @@
 // All code under test must be linked into the Unit Test bundle
 - (void)testNullOfEmpty
 {
-    STAssertTrue([StringHelper isNullOrEmpty:nil], @"nil input should returns true.");
-    STAssertTrue([StringHelper isNullOrEmpty:@" "], @"empty string input should returns true.");    
+    XCTAssertTrue([StringHelper isNullOrEmpty:nil], @"nil input should returns true.");
+    XCTAssertTrue([StringHelper isNullOrEmpty:@" "], @"empty string input should returns true.");    
     
-    STAssertTrue([StringHelper isNullOrEmpty:@""], @"Whitespace input should returns true.");
+    XCTAssertTrue([StringHelper isNullOrEmpty:@""], @"Whitespace input should returns true.");
     
-    STAssertFalse([StringHelper isNullOrEmpty:@" bal "], @"Definitely not empty string.");
+    XCTAssertFalse([StringHelper isNullOrEmpty:@" bal "], @"Definitely not empty string.");
 }
 
 @end

@@ -44,7 +44,7 @@ currentViewController = _currentViewController,
       tokenConnection = _tokenConnection,
     tokenResponseData = _tokenResponseData;
 
-- (id) initWithClient:(LiveConnectClientCore *)client
+- (instancetype) initWithClient:(LiveConnectClientCore *)client
                scopes:(NSArray *)scopes
 currentViewController:(UIViewController *)currentViewController
              delegate:(id<LiveAuthDelegate>)delegate
@@ -55,9 +55,9 @@ currentViewController:(UIViewController *)currentViewController
     {
         _client = client;
         _scopes = [scopes copy];
-        _currentViewController = [currentViewController retain];
+        _currentViewController = currentViewController;
         _delegate = delegate;
-        _userState = [userState retain];
+        _userState = userState;
         _status = AuthNotStarted;
     }
     
@@ -69,18 +69,8 @@ currentViewController:(UIViewController *)currentViewController
     _authViewController.delegate = nil;
     [_tokenConnection cancel];
     
-    [_scopes release];
-    [_userState release];
     
-    [_authCode release];
-    [_session release];
-    [_error release];
-    [_currentViewController release];
-    [_authViewController release];
-    [_tokenConnection release];
-    [_tokenResponseData release];
     
-    [super dealloc];
 }
 
 - (BOOL)isUserInvolved 
@@ -182,8 +172,7 @@ currentViewController:(UIViewController *)currentViewController
                                                          delegate:self];
     
     // Create a Navigation controller
-    UINavigationController *modalDialog = [[[UINavigationController alloc]initWithRootViewController:self.authViewController]
-                                          autorelease];
+    UINavigationController *modalDialog = [[UINavigationController alloc]initWithRootViewController:self.authViewController];
     
     [self.currentViewController presentViewController:modalDialog
                                              animated:YES
@@ -228,10 +217,8 @@ currentViewController:(UIViewController *)currentViewController
         }
         else
         {
-            errInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                      LIVE_ERROR_CODE_S_REQUEST_FAILED, LIVE_ERROR_KEY_ERROR,
-                           LIVE_ERROR_DESC_AUTH_FAILED, LIVE_ERROR_KEY_DESCRIPTION,
-                                                  nil];
+            errInfo = @{LIVE_ERROR_KEY_ERROR: LIVE_ERROR_CODE_S_REQUEST_FAILED,
+                           LIVE_ERROR_KEY_DESCRIPTION: LIVE_ERROR_DESC_AUTH_FAILED};
         }
         
         self.error = [NSError errorWithDomain:LIVE_ERROR_DOMAIN 
@@ -251,11 +238,9 @@ currentViewController:(UIViewController *)currentViewController
     
     self.error = [NSError errorWithDomain:LIVE_ERROR_DOMAIN 
                                      code:LIVE_ERROR_CODE_LOGIN_FAILED 
-                                 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                           LIVE_ERROR_CODE_S_REQUEST_FAILED, LIVE_ERROR_KEY_ERROR,
-                                                LIVE_ERROR_DESC_AUTH_FAILED, LIVE_ERROR_KEY_DESCRIPTION,
-                                                                      error, LIVE_ERROR_KEY_INNER_ERROR,
-                                                                      nil]];
+                                 userInfo:@{LIVE_ERROR_KEY_ERROR: LIVE_ERROR_CODE_S_REQUEST_FAILED,
+                                                LIVE_ERROR_KEY_DESCRIPTION: LIVE_ERROR_DESC_AUTH_FAILED,
+                                                                      LIVE_ERROR_KEY_INNER_ERROR: error}];
     [self updateStatus:AuthFailed];
 }
 
@@ -263,10 +248,8 @@ currentViewController:(UIViewController *)currentViewController
 {
     self.error =  [NSError errorWithDomain:LIVE_ERROR_DOMAIN
                                       code:LIVE_ERROR_CODE_LOGIN_CANCELED 
-                                  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                             LIVE_ERROR_CODE_S_REQUEST_CANCELED, LIVE_ERROR_KEY_ERROR,
-                                                  LIVE_ERROR_DESC_AUTH_CANCELED, LIVE_ERROR_KEY_DESCRIPTION,
-                                                                          nil]];
+                                  userInfo:@{LIVE_ERROR_KEY_ERROR: LIVE_ERROR_CODE_S_REQUEST_CANCELED,
+                                                  LIVE_ERROR_KEY_DESCRIPTION: LIVE_ERROR_DESC_AUTH_CANCELED}];
     [self updateStatus:AuthFailed];
 }
 
@@ -295,7 +278,7 @@ didReceiveResponse:(NSURLResponse *)response
     }
     else
     {
-        self.tokenResponseData = [[[NSMutableData alloc] init] autorelease];
+        self.tokenResponseData = [[NSMutableData alloc] init];
     }
 }
 

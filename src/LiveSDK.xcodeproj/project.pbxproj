@@ -76,7 +76,6 @@
 		5285185C147282E8009E8BD6 /* LiveOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 529DB6D7146C7550000973C1 /* LiveOperation.m */; };
 		5285185E147282F8009E8BD6 /* LiveAuthDialog_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 529DB6F8146DFAC1000973C1 /* LiveAuthDialog_iPhone.xib */; settings = {ATTRIBUTES = (Public, ); }; };
 		528518A91473BF59009E8BD6 /* LiveConnectSessionStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 528518A61473BE78009E8BD6 /* LiveConnectSessionStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5297DDF6145E102B005B463E /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5297DDF5145E102B005B463E /* SenTestingKit.framework */; };
 		5297DDF7145E102B005B463E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5297DDDD145E102B005B463E /* UIKit.framework */; };
 		5297DDF8145E102B005B463E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5297DDDF145E102B005B463E /* Foundation.framework */; };
 		529AD7A4159D8CD3004A195B /* LiveUploadOverwriteOption.h in Headers */ = {isa = PBXBuildFile; fileRef = 5297B269159A51F400ABFB6A /* LiveUploadOverwriteOption.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -136,8 +135,7 @@
 		5297DDDD145E102B005B463E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5297DDDF145E102B005B463E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5297DDE1145E102B005B463E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		5297DDF4145E102B005B463E /* LiveSDKTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiveSDKTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5297DDF5145E102B005B463E /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		5297DDF4145E102B005B463E /* LiveSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiveSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5299273D14BE3A3F0075376C /* LiveSDK_framework-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "LiveSDK_framework-Info.plist"; path = "LiveSDK_framework/LiveSDK_framework-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5299273E14BE3A3F0075376C /* LiveSDK_framework-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LiveSDK_framework-Prefix.pch"; path = "LiveSDK_framework/LiveSDK_framework-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		5299274214BE3A790075376C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = LiveSDK_framework/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
@@ -203,7 +201,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5297DDF6145E102B005B463E /* SenTestingKit.framework in Frameworks */,
 				5297DDF7145E102B005B463E /* UIKit.framework in Frameworks */,
 				5297DDF8145E102B005B463E /* Foundation.framework in Frameworks */,
 			);
@@ -254,7 +251,7 @@
 		5297DDDA145E102B005B463E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5297DDF4145E102B005B463E /* LiveSDKTests.octest */,
+				5297DDF4145E102B005B463E /* LiveSDKTests.xctest */,
 				5285182E14727FE6009E8BD6 /* LiveSDK.framework */,
 			);
 			name = Products;
@@ -266,7 +263,6 @@
 				5297DDDD145E102B005B463E /* UIKit.framework */,
 				5297DDDF145E102B005B463E /* Foundation.framework */,
 				5297DDE1145E102B005B463E /* CoreGraphics.framework */,
-				5297DDF5145E102B005B463E /* SenTestingKit.framework */,
 				52851766147235D0009E8BD6 /* CoreFoundation.framework */,
 			);
 			name = Frameworks;
@@ -484,8 +480,8 @@
 			);
 			name = LiveSDKTests;
 			productName = LiveSDKTests;
-			productReference = 5297DDF4145E102B005B463E /* LiveSDKTests.octest */;
-			productType = "com.apple.product-type.bundle.ocunit-test";
+			productReference = 5297DDF4145E102B005B463E /* LiveSDKTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -493,8 +489,8 @@
 		5297DDD0145E102B005B463E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0600;
-				LastUpgradeCheck = 0600;
+				LastTestingUpgradeCheck = 0630;
+				LastUpgradeCheck = 0630;
 			};
 			buildConfigurationList = 5297DDD3145E102B005B463E /* Build configuration list for PBXProject "LiveSDK" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -700,6 +696,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -736,6 +733,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -755,30 +753,30 @@
 		5297DE0A145E102B005B463E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LiveSDK/LiveSDK-Prefix.pch";
 				INFOPLIST_FILE = "UnitTests/LiveSDKTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
 		5297DE0B145E102B005B463E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LiveSDK/LiveSDK-Prefix.pch";
 				INFOPLIST_FILE = "UnitTests/LiveSDKTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};

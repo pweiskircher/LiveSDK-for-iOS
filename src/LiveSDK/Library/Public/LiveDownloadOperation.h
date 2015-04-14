@@ -32,6 +32,6 @@
 @interface LiveDownloadOperation : LiveOperation
 
 // The NSData instance that contains the downloaded data.
-@property (nonatomic, readonly) NSData *data;
+@property (weak, nonatomic, readonly) NSData *data;
 
 @end

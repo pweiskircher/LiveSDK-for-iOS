@@ -30,8 +30,8 @@
 // of a running operation.
 @interface LiveOperationProgress : NSObject
 
-- (id) initWithBytesTransferred:(NSUInteger)bytesTransferred
-                     totalBytes:(NSUInteger)totalBytes;
+- (instancetype) initWithBytesTransferred:(NSUInteger)bytesTransferred
+                     totalBytes:(NSUInteger)totalBytes NS_DESIGNATED_INITIALIZER;
 
 // Number of bytes already transferred.
 @property (nonatomic, readonly) NSUInteger bytesTransferred;

@@ -30,7 +30,7 @@
 
 @interface LiveOperation() 
 
-- (id) initWithOpCore:(LiveOperationCore *)opCore;
+- (instancetype) initWithOpCore:(LiveOperationCore *)opCore;
 
 @property (nonatomic, readonly) LiveOperationCore *liveOpCore;
 

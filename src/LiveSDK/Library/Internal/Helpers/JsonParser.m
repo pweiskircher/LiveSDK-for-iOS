@@ -49,10 +49,10 @@ NSString * const MSJSONParserInternalExceptionKey = @"MSJSONParserInternalExcept
 - (void) raiseError:(MSJSONParseError)code reason:(NSString*)reason;
 - (void) skipWhitespace;
 
-- (id) parseValue;
-- (NSString*) parseStringValue;
-- (id) parseCollection;
-- (id) parseObject;
+@property (nonatomic, readonly, strong) id parseValue;
+@property (nonatomic, readonly, copy) NSString *parseStringValue;
+@property (nonatomic, readonly, strong) id parseCollection;
+@property (nonatomic, readonly, strong) id parseObject;
 
 @end
 
@@ -81,13 +81,13 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 	{
 		s_initialized = YES;
 		s_CharacterSetNumericStartChars =
-			[[NSCharacterSet characterSetWithCharactersInString:@"-0123456789"] retain];
+			[NSCharacterSet characterSetWithCharactersInString:@"-0123456789"];
 		s_CharacterSetIdentifierStartChars =
-			[[NSCharacterSet characterSetWithCharactersInString:@"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"] retain];
+			[NSCharacterSet characterSetWithCharactersInString:@"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 		s_CharacterSetIdentifierChars =
-			[[NSCharacterSet characterSetWithCharactersInString:@"_.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"] retain];
+			[NSCharacterSet characterSetWithCharactersInString:@"_.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"];
 		s_CharacterSetBackslashAndQuote =
-			[[NSCharacterSet characterSetWithCharactersInString:@"\\\""] retain];
+			[NSCharacterSet characterSetWithCharactersInString:@"\\\""];
 	}
 }
 
@@ -100,7 +100,7 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 		if (error)
 		{
 			(*error) = [NSError errorWithDomain:MSJSONParserErrorDomain code:MSJSONErrorOutOfMemory userInfo:
-				[NSDictionary dictionaryWithObject:@"Unable to create parser" forKey:NSLocalizedDescriptionKey]];
+				@{NSLocalizedDescriptionKey: @"Unable to create parser"}];
 		}
 		return nil;
 	}
@@ -110,10 +110,9 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 
 	// If there is no result, then get the error code (if the caller wants it)
 	if (!result && error)
-		(*error) = [[parser.error retain] autorelease];
+		(*error) = parser.error;
 
 	// Clean up
-	[parser release];
 
 	return result;
 }
@@ -127,7 +126,7 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 		if (error)
 		{
 			(*error) = [NSError errorWithDomain:MSJSONParserErrorDomain code:MSJSONErrorOutOfMemory userInfo:
-				[NSDictionary dictionaryWithObject:@"Unable to create parser" forKey:NSLocalizedDescriptionKey]];
+				@{NSLocalizedDescriptionKey: @"Unable to create parser"}];
 		}
 		return nil;
 	}
@@ -138,15 +137,14 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 
 	// If there is no result, then get the error code (if the caller wants it)
 	if (!result && error)
-		(*error) = [[parser.error retain] autorelease];
+		(*error) = parser.error;
 
 	// Clean up
-	[parser release];
 
 	return result;
 }
 
-- (id) initWithText:(NSString*)text
+- (instancetype) initWithText:(NSString*)text
 {
 	self = [super init];
 	if (self)
@@ -157,7 +155,6 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 		if (!_scanner)
 		{
 			// Out of memory?
-			[self release];
 			return nil;
 		}
 
@@ -171,22 +168,13 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 		// a dot "." as the decimal separator).
 		NSLocale *localeUS = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
 		[_scanner setLocale:localeUS];
-		[localeUS release];
 		
-		_collectionClass = [[NSMutableArray class] retain];
-		_objectClass = [[NSMutableDictionary class] retain];
+		_collectionClass = [NSMutableArray class];
+		_objectClass = [NSMutableDictionary class];
 	}
 	return self;
 }
 
-- (void) dealloc
-{
-	[_collectionClass release];
-	[_objectClass release];
-	[_scanner release];
-	[_error release];
-	[super dealloc];
-}
 
 - (NSString*) memberNameForString:(NSString*)name
 {
@@ -210,49 +198,42 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 	id value = nil;
 
 	// Wrap this call in its own autorelease pool to clean up as much as possible
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	@try
-	{
-		// Do the real work (retain the value temporarily so that it won't go away with the autorelease pool)
-		value = [[self parseValue] retain];
+    @autoreleasepool {
+        @try
+        {
+            // Do the real work (retain the value temporarily so that it won't go away with the autorelease pool)
+            value = [self parseValue];
 
-		// Make sure that we have reached the end of the JSON text
-		[self skipWhitespace];
-		if (![_scanner isAtEnd])
-			[self raiseError:MSJSONErrorTextAfterRootValue reason:@"Extra text found after root value"];
-	}
-	@catch (NSException *ex)
-	{
-		// An exception occurred, clear the parsed object
-		[value release];
-		value = nil;
+            // Make sure that we have reached the end of the JSON text
+            [self skipWhitespace];
+            if (![_scanner isAtEnd])
+                [self raiseError:MSJSONErrorTextAfterRootValue reason:@"Extra text found after root value"];
+        }
+        @catch (NSException *ex)
+        {
+            // An exception occurred, clear the parsed object
+            value = nil;
 
-		// Capture the exception information in the parse error object
-		NSError *error = nil;
-		if ([ex.name isEqualToString:MSJSONParserInternalException])
-			error = [ex.userInfo objectForKey:MSJSONParserExceptionError];
-		if (!error)
-		{
-			error = [NSError errorWithDomain:MSJSONParserErrorDomain code:MSJSONErrorUnknownException userInfo:
-				[NSDictionary dictionaryWithObjectsAndKeys:
-				@"Unknown exception occurred in JSON parser", NSLocalizedDescriptionKey,
-				ex, MSJSONParserInternalExceptionKey,
-				nil]];
-		}
-		
-		// Get the last scanned location
-		// NSUInteger column = 0;
-		// NSUInteger line = [self lineNumberForParseLocation:[_scanner scanLocation] column:&column];
-		// MSLogErr(@"MSJSONParser error:%d (%@) [%u/%u]", error.code, error.reason, line, column);
-		self.error = error;
-	}
-	@finally
-	{
-		// Clean up the autorelease pool
-		[pool drain];
-	}
+            // Capture the exception information in the parse error object
+            NSError *error = nil;
+            if ([ex.name isEqualToString:MSJSONParserInternalException])
+                error = (ex.userInfo)[MSJSONParserExceptionError];
+            if (!error)
+            {
+                error = [NSError errorWithDomain:MSJSONParserErrorDomain code:MSJSONErrorUnknownException userInfo:
+                    @{NSLocalizedDescriptionKey: @"Unknown exception occurred in JSON parser",
+                    MSJSONParserInternalExceptionKey: ex}];
+            }
+            
+            // Get the last scanned location
+            // NSUInteger column = 0;
+            // NSUInteger line = [self lineNumberForParseLocation:[_scanner scanLocation] column:&column];
+            // MSLogErr(@"MSJSONParser error:%d (%@) [%u/%u]", error.code, error.reason, line, column);
+            self.error = error;
+        }
+    }
 
-	return [value autorelease];
+	return value;
 }
 
 - (NSUInteger) lineNumberForParseLocation:(NSUInteger)location column:(NSUInteger*)col
@@ -311,9 +292,9 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 - (void) raiseError:(MSJSONParseError)code reason:(NSString*)reason
 {
 	NSError *error = [NSError errorWithDomain:MSJSONParserErrorDomain code:code userInfo:
-		[NSDictionary dictionaryWithObject:reason forKey:NSLocalizedDescriptionKey]];
+		@{NSLocalizedDescriptionKey: reason}];
 	NSException *exception = [NSException exceptionWithName:MSJSONParserInternalException reason:reason userInfo:
-		[NSDictionary dictionaryWithObject:error forKey:MSJSONParserExceptionError]];
+		@{MSJSONParserExceptionError: error}];
 	[exception raise];
 }
 
@@ -379,7 +360,7 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 			// Numeric value found
 			double val = 0.0;
 			if ([_scanner scanDouble:&val])
-				value = [NSNumber numberWithDouble:val];
+				value = @(val);
 		}
 		else if (_supportJSONLight && [s_CharacterSetIdentifierStartChars characterIsMember:nextChar])
 		{
@@ -428,7 +409,7 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 	}
 
 	// Create the mutable string value
-	NSMutableString *value = [[[NSMutableString alloc] init] autorelease];
+	NSMutableString *value = [[NSMutableString alloc] init];
 	if (!value) [self raiseError:MSJSONErrorOutOfMemory reason:@"Error creating mutable string - out of memory?"];
 
 	while (true)
@@ -513,7 +494,7 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 	ScanCharacter('[');
 
 	// Create the collection object and verify that it supports the 'addObject:' selector
-	id collection = [[[_collectionClass alloc] init] autorelease];
+	id collection = [[_collectionClass alloc] init];
 	if (!collection) [self raiseError:MSJSONErrorOutOfMemory reason:@"Error creating collection - out of memory?"];
 	// MSDbgCheck([collection respondsToSelector:@selector(addObject:)] || [collection respondsToSelector:@selector(addJSONObject:)]);
 
@@ -562,7 +543,7 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 	ScanCharacter('{');
 
 	// Create and initialize the object
-	id object = [[[_objectClass alloc] init] autorelease];
+	id object = [[_objectClass alloc] init];
 	if (!object) [self raiseError:MSJSONErrorOutOfMemory reason:@"Error creating object - out of memory?"];
 
 	// Check to see if this object supports the custom setter
@@ -626,7 +607,7 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 // ------------------------------------------------------------------------
 @implementation NSDate (MSJSON_Extensions)
 
-+ (id) dateWithJSONStringValue:(NSString*)value
++ (instancetype) dateWithJSONStringValue:(NSString*)value
 {	
 	long long timeValue = 0L;
 	NSDate *date = nil;
@@ -646,7 +627,6 @@ static NSCharacterSet *s_CharacterSetBackslashAndQuote = nil;
 			return nil;
 
 		// Get the date for this time value (adjusted to seconds)
-		[self release];
 		date = [NSDate dateWithTimeIntervalSince1970:(timeValue / 1000.0)];
 		return date;
 	}
