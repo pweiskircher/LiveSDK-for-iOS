@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		43FEC50A1ADD90E00083A0D2 /* LiveAuthStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FEC5081ADD90E00083A0D2 /* LiveAuthStorage.h */; };
-		43FEC50E1ADD925F0083A0D2 /* LiveTemporaryAuthStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FEC50C1ADD925F0083A0D2 /* LiveTemporaryAuthStorage.h */; };
-		43FEC50F1ADD925F0083A0D2 /* LiveTemporaryAuthStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEC50D1ADD925F0083A0D2 /* LiveTemporaryAuthStorage.m */; };
-		43FEC5101ADD93210083A0D2 /* LiveTemporaryAuthStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEC50D1ADD925F0083A0D2 /* LiveTemporaryAuthStorage.m */; };
+		43FEC5141ADD945F0083A0D2 /* LiveAuthStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FEC5111ADD945F0083A0D2 /* LiveAuthStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		43FEC5151ADD945F0083A0D2 /* LiveTemporaryAuthStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 43FEC5121ADD945F0083A0D2 /* LiveTemporaryAuthStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		43FEC5161ADD945F0083A0D2 /* LiveTemporaryAuthStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEC5131ADD945F0083A0D2 /* LiveTemporaryAuthStorage.m */; };
+		43FEC5171ADD946D0083A0D2 /* LiveTemporaryAuthStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 43FEC5131ADD945F0083A0D2 /* LiveTemporaryAuthStorage.m */; };
 		5207540E14987ED80058A61E /* LiveOperationProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = 52B4944B1487625B001EA573 /* LiveOperationProgress.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5207541014987F440058A61E /* LiveAuthDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 5210CF941494445B00C525F3 /* LiveAuthDialog.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5207541114987F440058A61E /* LiveAuthDialogDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 529DB6F1146C7B36000973C1 /* LiveAuthDialogDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -99,9 +99,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		43FEC5081ADD90E00083A0D2 /* LiveAuthStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveAuthStorage.h; sourceTree = "<group>"; };
-		43FEC50C1ADD925F0083A0D2 /* LiveTemporaryAuthStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveTemporaryAuthStorage.h; sourceTree = "<group>"; };
-		43FEC50D1ADD925F0083A0D2 /* LiveTemporaryAuthStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveTemporaryAuthStorage.m; sourceTree = "<group>"; };
+		43FEC5111ADD945F0083A0D2 /* LiveAuthStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiveAuthStorage.h; path = Library/Public/LiveAuthStorage.h; sourceTree = "<group>"; };
+		43FEC5121ADD945F0083A0D2 /* LiveTemporaryAuthStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiveTemporaryAuthStorage.h; path = Library/Public/LiveTemporaryAuthStorage.h; sourceTree = "<group>"; };
+		43FEC5131ADD945F0083A0D2 /* LiveTemporaryAuthStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiveTemporaryAuthStorage.m; path = Library/Public/LiveTemporaryAuthStorage.m; sourceTree = "<group>"; };
 		5210CF941494445B00C525F3 /* LiveAuthDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiveAuthDialog.h; path = Library/Internal/LiveAuthDialog.h; sourceTree = "<group>"; };
 		5210CF951494445E00C525F3 /* LiveAuthDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiveAuthDialog.m; path = Library/Internal/LiveAuthDialog.m; sourceTree = "<group>"; };
 		52559D6D1506EA7400F0DF04 /* LiveAuthHelperTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiveAuthHelperTests.h; path = UnitTests/LiveAuthHelperTests.h; sourceTree = SOURCE_ROOT; };
@@ -349,6 +349,9 @@
 		5297DE49145E825E005B463E /* Public */ = {
 			isa = PBXGroup;
 			children = (
+				43FEC5111ADD945F0083A0D2 /* LiveAuthStorage.h */,
+				43FEC5121ADD945F0083A0D2 /* LiveTemporaryAuthStorage.h */,
+				43FEC5131ADD945F0083A0D2 /* LiveTemporaryAuthStorage.m */,
 				529DB6CE146C7550000973C1 /* LiveAuthDelegate.h */,
 				529DB6CF146C7550000973C1 /* LiveConnectClient.h */,
 				529DB6D0146C7550000973C1 /* LiveConnectClient.m */,
@@ -365,9 +368,6 @@
 				52B4944C1487625C001EA573 /* LiveOperationProgress.m */,
 				529DB6DB146C7550000973C1 /* LiveUploadOperationDelegate.h */,
 				5297B269159A51F400ABFB6A /* LiveUploadOverwriteOption.h */,
-				43FEC5081ADD90E00083A0D2 /* LiveAuthStorage.h */,
-				43FEC50C1ADD925F0083A0D2 /* LiveTemporaryAuthStorage.h */,
-				43FEC50D1ADD925F0083A0D2 /* LiveTemporaryAuthStorage.m */,
 			);
 			name = Public;
 			sourceTree = "<group>";
@@ -413,8 +413,7 @@
 				528518A91473BF59009E8BD6 /* LiveConnectSessionStatus.h in Headers */,
 				5285183E14728292009E8BD6 /* LiveDownloadOperation.h in Headers */,
 				5285183F14728292009E8BD6 /* LiveDownloadOperationDelegate.h in Headers */,
-				43FEC50E1ADD925F0083A0D2 /* LiveTemporaryAuthStorage.h in Headers */,
-				43FEC50A1ADD90E00083A0D2 /* LiveAuthStorage.h in Headers */,
+				43FEC5151ADD945F0083A0D2 /* LiveTemporaryAuthStorage.h in Headers */,
 				5285184014728292009E8BD6 /* LiveOperation.h in Headers */,
 				5285184114728292009E8BD6 /* LiveOperationDelegate.h in Headers */,
 				5207540E14987ED80058A61E /* LiveOperationProgress.h in Headers */,
@@ -439,6 +438,7 @@
 				5207541714987F440058A61E /* LiveUploadOperationCore.h in Headers */,
 				5207541914987F440058A61E /* StreamReader.h in Headers */,
 				5285184D147282C2009E8BD6 /* StringHelper.h in Headers */,
+				43FEC5141ADD945F0083A0D2 /* LiveAuthStorage.h in Headers */,
 				5285184E147282C2009E8BD6 /* UrlHelper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -557,7 +557,7 @@
 				5210CF84149290E400C525F3 /* LiveDownloadOperationCore.m in Sources */,
 				5210CF85149290E400C525F3 /* LiveUploadOperationCore.m in Sources */,
 				5210CF86149290E400C525F3 /* StreamReader.m in Sources */,
-				43FEC50F1ADD925F0083A0D2 /* LiveTemporaryAuthStorage.m in Sources */,
+				43FEC5161ADD945F0083A0D2 /* LiveTemporaryAuthStorage.m in Sources */,
 				5210CF87149290E400C525F3 /* LiveOperationProgress.m in Sources */,
 				52851850147282E8009E8BD6 /* LiveAuthRequest.m in Sources */,
 				52851851147282E8009E8BD6 /* LiveConnectClientCore.m in Sources */,
@@ -591,7 +591,7 @@
 				52C47514149B38D1007E646F /* LiveOperation.m in Sources */,
 				52C47515149B38D1007E646F /* LiveOperationProgress.m in Sources */,
 				5210CFA414954CA800C525F3 /* LiveConnectSession.m in Sources */,
-				43FEC5101ADD93210083A0D2 /* LiveTemporaryAuthStorage.m in Sources */,
+				43FEC5171ADD946D0083A0D2 /* LiveTemporaryAuthStorage.m in Sources */,
 				5210CF9E14954C5300C525F3 /* JsonParser.m in Sources */,
 				5210CF9F14954C5300C525F3 /* JsonWriter.m in Sources */,
 				5210CFA014954C5300C525F3 /* LiveAuthHelper.m in Sources */,
