@@ -34,6 +34,21 @@
 
 @implementation LiveDownloadOperationCore
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+
+- (instancetype)initWithMethod:(NSString *)method path:(NSString *)path inputStream:(NSInputStream *)inputStream delegate:(id)delegate userState:(id)userState liveClient:(LiveConnectClientCore *)liveClient {
+    [NSException raise:NSInternalInconsistencyException format:@"Call initWithPath:delegate:userState:liveClient"];
+    return nil;
+}
+
+- (instancetype)initWithMethod:(NSString *)method path:(NSString *)path requestBody:(NSData *)requestBody delegate:(id)delegate userState:(id)userState liveClient:(LiveConnectClientCore *)liveClient {
+    [NSException raise:NSInternalInconsistencyException format:@"Call initWithPath:delegate:userState:liveClient"];
+    return nil;
+}
+
+#pragma clang diagnostic pop
+
 - (instancetype) initWithPath:(NSString *)path
            delegate:(id <LiveDownloadOperationDelegate>)delegate
           userState:(id)userState
