@@ -33,6 +33,7 @@
 #import "LiveOperationDelegate.h"
 #import "LiveUploadOperationDelegate.h"
 #import "LiveUploadOverwriteOption.h"
+#import "LiveAuthStorage.h"
 
 // LiveConnectClient class represents a client object that helps the app to access Live services
 // on the user behalf. LiveConnectClient class provides two groups of methods:
@@ -69,20 +70,24 @@
 //         be passed as userState parameter when any LiveAuthDelegate protocol method is invoked.
 
 - (instancetype) initWithClientId:(NSString *)clientId
+                      authStorage:(id<LiveAuthStorage>)authStorage
                delegate:(id<LiveAuthDelegate>)delegate;
 
 - (instancetype) initWithClientId:(NSString *)clientId
-               delegate:(id<LiveAuthDelegate>)delegate
-              userState:(id)userState;
+                      authStorage:(id<LiveAuthStorage>)authStorage
+                         delegate:(id<LiveAuthDelegate>)delegate
+                        userState:(id)userState;
 
 - (instancetype) initWithClientId:(NSString *)clientId
-                 scopes:(NSArray *)scopes
-               delegate:(id<LiveAuthDelegate>)delegate;
+                      authStorage:(id<LiveAuthStorage>)authStorage
+                           scopes:(NSArray *)scopes
+                         delegate:(id<LiveAuthDelegate>)delegate;
 
 - (instancetype) initWithClientId:(NSString *)clientId
-                 scopes:(NSArray *)scopes
-               delegate:(id<LiveAuthDelegate>)delegate
-              userState:(id)userState NS_DESIGNATED_INITIALIZER;
+                      authStorage:(id<LiveAuthStorage>)authStorage
+                           scopes:(NSArray *)scopes
+                         delegate:(id<LiveAuthDelegate>)delegate
+                        userState:(id)userState NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - login* methods
 

@@ -44,37 +44,44 @@
 @implementation LiveConnectClient
 
 - (instancetype) initWithClientId:(NSString *)clientId
+                      authStorage:(id<LiveAuthStorage>)authStorage
                delegate:(id<LiveAuthDelegate>)delegate
 {
-    return [self initWithClientId:clientId 
+    return [self initWithClientId:clientId
+                      authStorage:authStorage
                          delegate:delegate 
                         userState:nil];
 }
 
 - (instancetype) initWithClientId:(NSString *)clientId
-               delegate:(id<LiveAuthDelegate>)delegate
-              userState:(id) userState
+                      authStorage:(id<LiveAuthStorage>)authStorage
+                         delegate:(id<LiveAuthDelegate>)delegate
+                        userState:(id) userState
 {    
     return [self initWithClientId:clientId
+                      authStorage:authStorage
                            scopes:nil
                          delegate:delegate
                         userState:userState];
 }
 
 - (instancetype) initWithClientId:(NSString *)clientId
-                 scopes:(NSArray *)scopes
-               delegate:(id<LiveAuthDelegate>)delegate
+                      authStorage:(id<LiveAuthStorage>)authStorage
+                           scopes:(NSArray *)scopes
+                         delegate:(id<LiveAuthDelegate>)delegate
 {
     return [self initWithClientId:clientId  
-                           scopes:scopes 
-                         delegate:delegate 
+                      authStorage:authStorage
+                           scopes:scopes
+                         delegate:delegate
                         userState:nil];
 }
 
 - (instancetype) initWithClientId:(NSString *)clientId
-                 scopes:(NSArray *)scopes
-               delegate:(id<LiveAuthDelegate>)delegate
-              userState:(id)userState
+                      authStorage:(id<LiveAuthStorage>)authStorage
+                           scopes:(NSArray *)scopes
+                         delegate:(id<LiveAuthDelegate>)delegate
+                        userState:(id)userState
 {
     if ([StringHelper isNullOrEmpty:clientId])
     {
@@ -90,7 +97,8 @@
     self = [super init];
     if (self) 
     {
-        _liveClientCore = [[LiveConnectClientCore alloc] initWithClientId:clientId 
+        _liveClientCore = [[LiveConnectClientCore alloc] initWithClientId:clientId
+                                                              authStorage:authStorage
                                                                    scopes:[LiveAuthHelper normalizeScopes:scopes] 
                                                                  delegate:delegate 
                                                                 userState:userState];

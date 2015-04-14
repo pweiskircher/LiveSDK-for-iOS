@@ -33,6 +33,13 @@
 #import "LiveConnectionHelper.h"
 #import "MockResponse.h"
 #import "MockUrlConnection.h"
+#import "LiveTemporaryAuthStorage.h"
+
+@interface LiveConnectClientAuthTests ()
+
+@property (nonatomic) id<LiveAuthStorage> authStorage;
+
+@end
 
 @implementation LiveConnectClientAuthTests
 
@@ -42,8 +49,7 @@
 
 - (void) setRefreshToken:(NSString *)refreshToken
 {
-    LiveAuthStorage *storage = [[LiveAuthStorage alloc] initWithClientId:self.clientId];
-    storage.refreshToken = refreshToken;
+    self.authStorage.refreshToken = refreshToken;
 }
 
 - (void) clearStorage
@@ -56,6 +62,7 @@
 
 - (void) setUp 
 {
+    self.authStorage = [LiveTemporaryAuthStorage new];
     self.clientId = @"56789999932";
     self.factory = [MockFactory factory];
     [LiveConnectionHelper setLiveConnectCreator:self.factory];
@@ -78,7 +85,8 @@
     NSArray *scopes = @[@"wl.signin", @"wl.basic"];
     LiveConnectClientListener *listener = [[LiveConnectClientListener alloc]init];
     NSString *userState = @"init";
-    LiveConnectClient *liveClient = [[LiveConnectClient alloc] initWithClientId:self.clientId 
+    LiveConnectClient *liveClient = [[LiveConnectClient alloc] initWithClientId:self.clientId
+                                                                    authStorage:self.authStorage
                                                                           scopes:scopes 
                                                                         delegate:listener 
                                                                        userState:userState];
@@ -108,8 +116,9 @@
     NSArray *scopes = @[@"wl.signin", @"wl.basic"];
     LiveConnectClientListener *listener = [[LiveConnectClientListener alloc]init];
     NSString *userState = @"init";
-    LiveConnectClient *liveClient = [[LiveConnectClient alloc] initWithClientId:self.clientId 
-                                                                          scopes:scopes 
+    LiveConnectClient *liveClient = [[LiveConnectClient alloc] initWithClientId:self.clientId
+                                                                    authStorage:self.authStorage
+                                                                          scopes:scopes
                                                                         delegate:listener 
                                                                        userState:userState];
     

@@ -43,6 +43,7 @@
 #pragma mark init and dealloc
 
 - (instancetype) initWithClientId:(NSString *)clientId
+                      authStorage:(id<LiveAuthStorage>)authStorage
                  scopes:(NSArray *)scopes
                delegate:(id<LiveAuthDelegate>)delegate
               userState:(id)userState
@@ -52,7 +53,7 @@
     {
         _clientId = [clientId copy];
         _scopes = [scopes copy];
-        _storage = [[LiveAuthStorage alloc] initWithClientId:clientId];            
+        _authStorage = authStorage;
         _status = LiveAuthUnknown;
         _session = nil;
     }
@@ -137,18 +138,18 @@
     }
     
     // By the time we update the session, we persist the refreshToken.
-    _storage.refreshToken = session.refreshToken;
+    self.authStorage.refreshToken = session.refreshToken;
 }
 
 - (void) refreshSessionWithDelegate:(id<LiveAuthDelegate>)delegate
                           userState:(id)userState
 {
     if ([LiveAuthHelper shouldRefreshToken:_session 
-                              refreshToken:_storage.refreshToken]) 
+                              refreshToken:self.authStorage.refreshToken])
     {
         authRefreshRequest = [[LiveAuthRefreshRequest alloc] initWithClientId:_clientId
                                                                          scope:_scopes
-                                                                  refreshToken:_storage.refreshToken
+                                                                  refreshToken:self.authStorage.refreshToken
                                                                       delegate:delegate
                                                                      userState:userState
                                                                     clientStub:self];

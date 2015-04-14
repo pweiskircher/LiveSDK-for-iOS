@@ -33,6 +33,13 @@
 #import "LiveConnectionHelper.h"
 #import "MockResponse.h"
 #import "MockUrlConnection.h"
+#import "LiveTemporaryAuthStorage.h"
+
+@interface LiveConnectClientApiTests ()
+
+@property (nonatomic) id<LiveAuthStorage> authStorage;
+
+@end
 
 @implementation LiveConnectClientApiTests
 @synthesize factory, clientId, listener;
@@ -41,8 +48,7 @@
 
 - (void) setRefreshToken:(NSString *)refreshToken
 {
-    LiveAuthStorage *storage = [[LiveAuthStorage alloc] initWithClientId:self.clientId];
-    storage.refreshToken = refreshToken;
+    self.authStorage.refreshToken = refreshToken;
 }
 
 - (void) clearStorage
@@ -56,7 +62,8 @@
     
     NSArray *scopes = @[@"wl.signin", @"wl.basic"];
     NSString *userState = @"init";
-    LiveConnectClient *liveClient = [[LiveConnectClient alloc] initWithClientId:self.clientId 
+    LiveConnectClient *liveClient = [[LiveConnectClient alloc] initWithClientId:self.clientId
+                                                                    authStorage:self.authStorage
                                                                           scopes:scopes 
                                                                         delegate:self.listener 
                                                                        userState:userState];
@@ -112,6 +119,7 @@
 {
     self.clientId = @"56789999932";
     self.factory = [MockFactory factory];
+    self.authStorage = [LiveTemporaryAuthStorage new];
     [LiveConnectionHelper setLiveConnectCreator:self.factory];
     self.listener = [[LiveConnectClientListener alloc]init];
     [self clearStorage];

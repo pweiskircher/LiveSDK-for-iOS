@@ -41,11 +41,8 @@
 @class LiveAuthRefreshRequest;
 
 @interface LiveConnectClientCore : NSObject 
-{
-@private
-    LiveAuthStorage *_storage;
-}
 
+@property (nonatomic, readonly) id<LiveAuthStorage> authStorage;
 @property (nonatomic, readonly) NSString *clientId;
 @property (nonatomic, readonly) NSArray *scopes;
 
@@ -57,6 +54,7 @@
 @property (nonatomic, readonly) BOOL hasPendingUIRequest;
 
 - (instancetype) initWithClientId:(NSString *)clientId
+                      authStorage:(id<LiveAuthStorage>)authStorage
                  scopes:(NSArray *)scopes
                delegate:(id<LiveAuthDelegate>)delegate
               userState:(id)userState NS_DESIGNATED_INITIALIZER;
