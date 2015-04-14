@@ -32,8 +32,8 @@
 
 + (instancetype) factory;
 
-@property (nonatomic, strong) NSMutableArray *connectionQueue;
+@property (nonatomic) NSMutableArray *connectionQueue;
 
-@property (nonatomic, readonly, strong) MockUrlConnection *fetchRequestConnection;
+@property (nonatomic, readonly) MockUrlConnection *fetchRequestConnection;
 
 @end

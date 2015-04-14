@@ -49,10 +49,10 @@ NSString * const MSJSONParserInternalExceptionKey = @"MSJSONParserInternalExcept
 - (void) raiseError:(MSJSONParseError)code reason:(NSString*)reason;
 - (void) skipWhitespace;
 
-@property (nonatomic, readonly, strong) id parseValue;
+@property (nonatomic, readonly) id parseValue;
 @property (nonatomic, readonly, copy) NSString *parseStringValue;
-@property (nonatomic, readonly, strong) id parseCollection;
-@property (nonatomic, readonly, strong) id parseObject;
+@property (nonatomic, readonly) id parseCollection;
+@property (nonatomic, readonly) id parseObject;
 
 @end
 

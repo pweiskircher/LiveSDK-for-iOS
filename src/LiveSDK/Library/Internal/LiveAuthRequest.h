@@ -58,14 +58,14 @@ typedef NS_ENUM(unsigned int, LiveAuthRequstStatus)
 } 
 
 @property (nonatomic, readonly) BOOL isUserInvolved;
-@property (nonatomic, strong) NSString *authCode;
-@property (nonatomic, strong) LiveConnectSession *session;
-@property (nonatomic, strong) UIViewController *currentViewController;
-@property (nonatomic, strong) LiveAuthDialog *authViewController;
+@property (nonatomic) NSString *authCode;
+@property (nonatomic) LiveConnectSession *session;
+@property (nonatomic) UIViewController *currentViewController;
+@property (nonatomic) LiveAuthDialog *authViewController;
 @property (nonatomic) LiveAuthRequstStatus status;
-@property (nonatomic, strong) NSError *error;
-@property (nonatomic, strong) id tokenConnection;
-@property (nonatomic, strong) NSMutableData *tokenResponseData;
+@property (nonatomic) NSError *error;
+@property (nonatomic) id tokenConnection;
+@property (nonatomic) NSMutableData *tokenResponseData;
 
 - (instancetype) initWithClient:(LiveConnectClientCore *)client
                scopes:(NSArray *)scopes

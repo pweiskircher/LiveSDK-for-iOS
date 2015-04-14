@@ -32,7 +32,7 @@
 
 @interface LiveConnectClientAuthTests : XCTestCase
 
-@property (nonatomic, strong) MockFactory *factory;
-@property (nonatomic, strong) NSString *clientId;
+@property (nonatomic) MockFactory *factory;
+@property (nonatomic) NSString *clientId;
 
 @end

@@ -40,8 +40,8 @@
     LiveConnectClientCore *_client;
 }
 
-@property (nonatomic, strong) id tokenConnection;
-@property (nonatomic, strong) NSMutableData *tokenResponseData;
+@property (nonatomic) id tokenConnection;
+@property (nonatomic) NSMutableData *tokenResponseData;
 
 - (instancetype) initWithClientId:(NSString *)clientId
                   scope:(NSArray *)scopes

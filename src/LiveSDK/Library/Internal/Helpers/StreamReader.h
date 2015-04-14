@@ -35,8 +35,8 @@
 
 @interface StreamReader : NSObject<NSStreamDelegate>
 
-@property (nonatomic, strong) NSMutableData *data;
-@property (nonatomic, strong) NSInputStream *stream;
+@property (nonatomic) NSMutableData *data;
+@property (nonatomic) NSInputStream *stream;
 @property (nonatomic, weak) id<StreamReaderDelegate> delegate;
 
 - (instancetype)initWithStream:(NSInputStream *)stream

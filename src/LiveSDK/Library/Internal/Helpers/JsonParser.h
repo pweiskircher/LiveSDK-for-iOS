@@ -74,11 +74,11 @@
 - (instancetype) initWithText:(NSString*)text NS_DESIGNATED_INITIALIZER;
 - (id) parse;
 
-@property (readwrite, strong) NSError *error;
+@property (readwrite) NSError *error;
 @property (readwrite, assign) BOOL skipJavascriptComments;
 @property (readwrite, assign) BOOL supportJSONLight;
-@property (readwrite, strong) Class collectionClass;       // NSMutableArray by default
-@property (readwrite, strong) Class objectClass;           // NSMutableDictionary by default
+@property (readwrite) Class collectionClass;       // NSMutableArray by default
+@property (readwrite) Class objectClass;           // NSMutableDictionary by default
 
 - (NSString*) memberNameForString:(NSString*)name;   // returns 'name' by default
 - (id) valueForStringValue:(NSString*)value;         // returns 'value' by default

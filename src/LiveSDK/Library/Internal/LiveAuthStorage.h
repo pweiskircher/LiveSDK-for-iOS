@@ -36,7 +36,7 @@
     NSString *_clientId;
 }
 
-@property (nonatomic, strong) NSString *refreshToken;
+@property (nonatomic) NSString *refreshToken;
 
 - (instancetype) initWithClientId:(NSString *)clientId NS_DESIGNATED_INITIALIZER;
 

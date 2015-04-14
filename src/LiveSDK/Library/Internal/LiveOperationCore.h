@@ -36,23 +36,23 @@
 
 @property (nonatomic, readonly) NSString *path;
 @property (nonatomic, readonly) NSString *method;
-@property (nonatomic, strong) NSData *requestBody;
+@property (nonatomic) NSData *requestBody;
 @property (nonatomic, readonly) id userState; 
 @property (nonatomic, weak) id delegate;
 @property (nonatomic, readonly) LiveConnectClientCore *liveClient;
-@property (nonatomic, strong) NSInputStream *inputStream;
+@property (nonatomic) NSInputStream *inputStream;
 @property (weak, nonatomic, readonly) NSURL *requestUrl;
-@property (nonatomic, strong) StreamReader *streamReader;
-@property (nonatomic, strong) NSMutableURLRequest *request; 
+@property (nonatomic) StreamReader *streamReader;
+@property (nonatomic) NSMutableURLRequest *request; 
 
 @property (nonatomic) BOOL completed;
-@property (nonatomic, strong) NSString *rawResult;
-@property (nonatomic, strong) NSDictionary *result;
-@property (nonatomic, strong) id connection;
-@property (nonatomic, strong) NSMutableData *responseData;
-@property (nonatomic, strong) id publicOperation;
-@property (nonatomic, strong) NSHTTPURLResponse *httpResponse;
-@property (nonatomic, strong) NSError *httpError;
+@property (nonatomic) NSString *rawResult;
+@property (nonatomic) NSDictionary *result;
+@property (nonatomic) id connection;
+@property (nonatomic) NSMutableData *responseData;
+@property (nonatomic) id publicOperation;
+@property (nonatomic) NSHTTPURLResponse *httpResponse;
+@property (nonatomic) NSError *httpError;
 
 - (instancetype) initWithMethod:(NSString *)method
                  path:(NSString *)path

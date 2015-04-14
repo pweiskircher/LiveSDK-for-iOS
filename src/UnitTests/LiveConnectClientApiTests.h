@@ -33,8 +33,8 @@
 
 @interface LiveConnectClientApiTests : XCTestCase
 
-@property (nonatomic, strong) MockFactory *factory;
-@property (nonatomic, strong) NSString *clientId;
-@property (nonatomic, strong) LiveConnectClientListener *listener;
+@property (nonatomic) MockFactory *factory;
+@property (nonatomic) NSString *clientId;
+@property (nonatomic) LiveConnectClientListener *listener;
 
 @end

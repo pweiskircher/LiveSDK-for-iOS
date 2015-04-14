@@ -30,7 +30,7 @@
 
 + (instancetype) connection;
 
-@property (nonatomic, strong) NSURLRequest *request;
-@property (nonatomic, strong) id delegate;
+@property (nonatomic) NSURLRequest *request;
+@property (nonatomic) id delegate;
 - (void)cancel;
 @end

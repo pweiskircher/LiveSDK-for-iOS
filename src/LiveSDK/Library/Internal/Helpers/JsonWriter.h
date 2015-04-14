@@ -148,7 +148,7 @@ extern NSString * const MSJSONWriterCycleException;
 
 @interface NSObject (MSJSONWriter_Extensions)
 @property (nonatomic, readonly, copy) NSString *JSONDescription;
-@property (nonatomic, readonly, strong) id JSONMemberKeys;
+@property (nonatomic, readonly) id JSONMemberKeys;
 @end
 
 // ------------------------------------
