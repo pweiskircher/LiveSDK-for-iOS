@@ -33,6 +33,9 @@
 @property (nonatomic, readonly) NSString *endURL;
 @property (nonatomic) UIWebView *webView;
 
+@property (nonatomic) NSArray *savedCookies;
+@property (nonatomic) NSHTTPCookieAcceptPolicy savedCookiePolicy;
+
 @end
 
 @implementation LiveAuthDialog
@@ -62,6 +65,27 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+#pragma mark - Cookies
+
+- (void)saveAndClearCookies {
+    self.savedCookies = [NSHTTPCookieStorage.sharedHTTPCookieStorage.cookies copy];
+    self.savedCookiePolicy = NSHTTPCookieStorage.sharedHTTPCookieStorage.cookieAcceptPolicy;
+
+    for (NSHTTPCookie *cookie in self.savedCookies) {
+        [NSHTTPCookieStorage.sharedHTTPCookieStorage deleteCookie:cookie];
+    }
+    NSHTTPCookieStorage.sharedHTTPCookieStorage.cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
+}
+
+- (void)restoreCookies {
+    for (NSHTTPCookie *cookie in self.savedCookies) {
+        [NSHTTPCookieStorage.sharedHTTPCookieStorage setCookie:cookie];
+    }
+    NSHTTPCookieStorage.sharedHTTPCookieStorage.cookieAcceptPolicy = self.savedCookiePolicy;
+
+    self.savedCookies = nil;
+}
+
 #pragma mark - View lifecycle
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -74,24 +98,23 @@
     [self.view addSubview:self.webView];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissView:)];
-
-    //Load the Url request in the UIWebView.
-    NSURLRequest *requestObj = [NSURLRequest requestWithURL:self.startURL];
-    [self.webView loadRequest:requestObj];
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    // We can't dismiss this modal dialog before it appears.
     canDismiss = YES;
+    [self saveAndClearCookies];
+
+    //Load the Url request in the UIWebView.
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:self.startURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30.f];
+    [self.webView loadRequest:requestObj];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [self restoreCookies];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
