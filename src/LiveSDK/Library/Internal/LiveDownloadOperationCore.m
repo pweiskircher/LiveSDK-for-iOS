@@ -32,6 +32,12 @@
 
 @class LiveDownloadOperation;
 
+@interface LiveDownloadOperationCore ()
+
+@property (nonatomic) NSInteger bytesTransferred;
+
+@end
+
 @implementation LiveDownloadOperationCore
 
 #pragma clang diagnostic push
@@ -121,6 +127,8 @@
 
 - (void) operationReceivedData:(NSData *)data
 {
+    self.bytesTransferred += data.length;
+
     if ([self.delegate respondsToSelector:@selector(liveDownloadOperationProgressed:data:operation:)])
     {
         if (contentLength == 0)
@@ -129,7 +137,7 @@
         }
         
         LiveOperationProgress *progress = [[LiveOperationProgress alloc] 
-                                            initWithBytesTransferred:self.responseData.length 
+                                            initWithBytesTransferred:self.bytesTransferred
                                                           totalBytes:contentLength];
         
         [self.delegate liveDownloadOperationProgressed:progress 
