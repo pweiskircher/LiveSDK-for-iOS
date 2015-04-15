@@ -121,8 +121,6 @@
 
 - (void) operationReceivedData:(NSData *)data
 {
-    [self.responseData appendData:data];
-    
     if ([self.delegate respondsToSelector:@selector(liveDownloadOperationProgressed:data:operation:)])
     {
         if (contentLength == 0)
@@ -137,6 +135,8 @@
         [self.delegate liveDownloadOperationProgressed:progress 
                                                   data:data 
                                              operation:self.publicOperation];
+    } else {
+        [self.responseData appendData:data];
     }
 }
 

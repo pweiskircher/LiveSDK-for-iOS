@@ -31,7 +31,7 @@
 // LiveDownloadOperation class represents an operation of downloading a file from the user's SkyDrive account.
 @interface LiveDownloadOperation : LiveOperation
 
-// The NSData instance that contains the downloaded data.
+// The NSData instance that contains the downloaded data. If you implement `liveDownloadOperationProgressed:data:operation:` this will be empty and you have to handle saving the data yourself.
 @property (weak, nonatomic, readonly) NSData *data;
 
 @end
