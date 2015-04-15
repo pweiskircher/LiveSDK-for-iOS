@@ -28,20 +28,12 @@
 #import "LiveAuthDialogDelegate.h"
 
 @interface LiveAuthDialog : UIViewController<UIWebViewDelegate>
-{
-@private
-    NSURL *_startUrl;
-    NSString * _endUrl;
-}
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil 
-               bundle:(NSBundle *)nibBundleOrNil
-             startUrl:(NSURL *)startUrl 
-               endUrl:(NSString *)endUrl
-             delegate:(id<LiveAuthDialogDelegate>)delegate NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithStartUrl:(NSURL *)startUrl
+                          endUrl:(NSString *)endUrl
+                        delegate:(id<LiveAuthDialogDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 
 @property (weak, nonatomic) id<LiveAuthDialogDelegate> delegate;
-@property (strong, nonatomic) IBOutlet UIWebView *webView;
 @property (readonly, nonatomic) BOOL canDismiss;
 
 @end

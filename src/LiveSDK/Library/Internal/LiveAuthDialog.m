@@ -27,22 +27,25 @@
 #import "LiveAuthDialog.h"
 #import "LiveAuthHelper.h"
 
+@interface LiveAuthDialog ()
+
+@property (nonatomic, readonly) NSURL *startURL;
+@property (nonatomic, readonly) NSString *endURL;
+@property (nonatomic) UIWebView *webView;
+
+@end
+
 @implementation LiveAuthDialog
 
-@synthesize webView, canDismiss, delegate = _delegate;
+@synthesize canDismiss, delegate = _delegate;
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil 
-               bundle:(NSBundle *)nibBundleOrNil
-             startUrl:(NSURL *)startUrl 
-               endUrl:(NSString *)endUrl
-             delegate:(id<LiveAuthDialogDelegate>)delegate
+- (instancetype)initWithStartUrl:(NSURL *)startUrl endUrl:(NSString *)endUrl delegate:(id<LiveAuthDialogDelegate>)delegate
 {
-    self = [super initWithNibName:nibNameOrNil 
-                           bundle:nibBundleOrNil];
+    self = [super initWithNibName:nil bundle:nil];
     if (self) 
     {
-        _startUrl = startUrl;
-        _endUrl =  endUrl;
+        _startURL = startUrl;
+        _endURL =  endUrl;
         _delegate = delegate;
         canDismiss = NO;
     }
@@ -65,14 +68,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+    self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     self.webView.delegate = self;
+    [self.view addSubview:self.webView];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissView:)];
 
     //Load the Url request in the UIWebView.
-    NSURLRequest *requestObj = [NSURLRequest requestWithURL:_startUrl];
-    [webView loadRequest:requestObj];    
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:self.startURL];
+    [self.webView loadRequest:requestObj];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -119,7 +124,7 @@
 {
     NSURL *url = [request URL];
     
-    if ([[url absoluteString] hasPrefix: _endUrl]) 
+    if ([[url absoluteString] hasPrefix:self.endURL])
     {
         [_delegate authDialogCompletedWithResponse:url];
     }
