@@ -81,7 +81,6 @@
 		5297DDF8145E102B005B463E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5297DDDF145E102B005B463E /* Foundation.framework */; };
 		529AD7A4159D8CD3004A195B /* LiveUploadOverwriteOption.h in Headers */ = {isa = PBXBuildFile; fileRef = 5297B269159A51F400ABFB6A /* LiveUploadOverwriteOption.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52A497E6149F16A50034BE79 /* LiveConnectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C47500149B24F1007E646F /* LiveConnectionHelper.m */; };
-		52A497E8149F174D0034BE79 /* backArrow_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 52C474EE1499E7F0007E646F /* backArrow_black.png */; };
 		52A497E9149F178D0034BE79 /* LiveConnectionHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 52C474FF149B24F1007E646F /* LiveConnectionHelper.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		52A497EA149F178D0034BE79 /* LiveConnectionCreatorDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 52C47502149B2E40007E646F /* LiveConnectionCreatorDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		52C4750B149B38D1007E646F /* LiveAuthRefreshRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 52B54AEE14912DB8001E1E17 /* LiveAuthRefreshRequest.m */; };
@@ -179,7 +178,6 @@
 		52B4946E148B7D67001EA573 /* LiveUploadOperationCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiveUploadOperationCore.m; path = Library/Internal/LiveUploadOperationCore.m; sourceTree = "<group>"; };
 		52B54AED14912DB6001E1E17 /* LiveAuthRefreshRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = LiveAuthRefreshRequest.h; path = Library/Internal/LiveAuthRefreshRequest.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		52B54AEE14912DB8001E1E17 /* LiveAuthRefreshRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiveAuthRefreshRequest.m; path = Library/Internal/LiveAuthRefreshRequest.m; sourceTree = "<group>"; };
-		52C474EE1499E7F0007E646F /* backArrow_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = backArrow_black.png; path = Library/Internal/Resources/backArrow_black.png; sourceTree = "<group>"; };
 		52C474FF149B24F1007E646F /* LiveConnectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiveConnectionHelper.h; path = LiveSDK/Library/Internal/Helpers/LiveConnectionHelper.h; sourceTree = SOURCE_ROOT; };
 		52C47500149B24F1007E646F /* LiveConnectionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LiveConnectionHelper.m; path = LiveSDK/Library/Internal/Helpers/LiveConnectionHelper.m; sourceTree = SOURCE_ROOT; };
 		52C47502149B2E40007E646F /* LiveConnectionCreatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LiveConnectionCreatorDelegate.h; path = LiveSDK/Library/Internal/Helpers/LiveConnectionCreatorDelegate.h; sourceTree = SOURCE_ROOT; };
@@ -208,14 +206,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5210CF91149438E400C525F3 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				52C474EE1499E7F0007E646F /* backArrow_black.png */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
 		5285183014727FE6009E8BD6 /* LiveSDK_framework */ = {
 			isa = PBXGroup;
 			children = (
@@ -314,7 +304,6 @@
 		5297DE0C145E10C7005B463E /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				5210CF91149438E400C525F3 /* Resources */,
 				52DA81951469ECF100239FDE /* Internal */,
 				5297DE49145E825E005B463E /* Public */,
 			);
@@ -514,7 +503,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52A497E8149F174D0034BE79 /* backArrow_black.png in Resources */,
 				5207541A14987FD30058A61E /* LiveAuthDialog_iPad.xib in Resources */,
 				5285185E147282F8009E8BD6 /* LiveAuthDialog_iPhone.xib in Resources */,
 			);
@@ -703,6 +691,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -734,6 +723,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
